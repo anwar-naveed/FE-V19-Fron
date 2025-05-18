@@ -1,0 +1,56 @@
+$max: 100;
+$offset: 5;
+$unit: "px"; // Feel free to change the unit.
+$unit-width-height: "%";
+
+@mixin list-loop($className, $styleName) {
+  $i: 0;
+  @while $i <= $max {
+    #{$className + $i} {
+      #{$styleName}: #{$i + $unit} !important;
+    }
+    $i: $i + $offset;
+  }
+}
+
+@mixin list-loop-width($className, $styleName) {
+  $i: 0;
+  @while $i <= $max {
+    #{$className + $i} {
+      #{$styleName}: #{$i + $unit-width-height} !important;
+    }
+    $i: $i + $offset;
+  }
+}
+
+@mixin list-loop-height($className, $styleName) {
+  $i: 0;
+  @while $i <= $max {
+    #{$className + $i} {
+      #{$styleName}: #{$i + $unit-width-height} !important;
+    }
+    $i: $i + $offset;
+  }
+}
+
+// Margins
+@include list-loop(".m-t-", "margin-top");
+@include list-loop(".m-", "margin");
+@include list-loop(".m-b-", "margin-bottom");
+@include list-loop(".m-l-", "margin-left");
+@include list-loop(".m-r-", "margin-right");
+
+// Paddings
+@include list-loop(".p-t-", "padding-top");
+@include list-loop(".p-", "padding");
+@include list-loop(".p-b-", "padding-bottom");
+@include list-loop(".p-l-", "padding-left");
+@include list-loop(".p-r-", "padding-right");
+@include list-loop(".p-r-", "padding-left");
+@include list-loop(".p-l-", "padding-right");
+
+// Width
+@include list-loop-width(".w-", "width");
+
+// Height
+@include list-loop-height(".h-", "height");

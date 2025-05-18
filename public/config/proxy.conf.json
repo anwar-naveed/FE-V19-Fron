@@ -1,0 +1,13 @@
+{
+    "/api/*": {
+        
+        "target": "https://localhost:7002/api",
+        "secure": false,
+        "pathRewrite": {
+            "^/api": ""
+        },
+        "changeOrigin": true,
+        "logLevel": "debug"
+    },
+    "port": 4200
+}

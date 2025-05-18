@@ -1,0 +1,165 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  // Get the color config from the theme.
+  $color-footer-config: mat.m2-get-color-config($theme);
+  // $palette-color : map-get($theme, 'color');
+
+  // Get the primary color palette from the color-config.
+  $primary-footer-palette: map.get($color-footer-config, 'primary');
+  $accent-footer-palette: map.get($color-footer-config, 'accent');
+  $warn-footer-palette: map.get($color-footer-config, 'warn');
+  $footer-background: map.get($color-footer-config, 'background');
+  $card-footer-Primary0: mat.m2-get-color-from-palette($primary-footer-palette);
+  $card-footer-Accent0: mat.m2-get-color-from-palette($accent-footer-palette);
+  $card-footer-Warn0: mat.m2-get-color-from-palette($warn-footer-palette);
+  --color-footer-background: #{mat.m2-get-color-from-palette($footer-background)};
+  --color-footer-primary: #{mat.m2-get-color-from-palette($primary-footer-palette)};
+  --color-footer-accent: #{mat.m2-get-color-from-palette($accent-footer-palette, 500)};
+  --color-footer-warn: #{mat.m2-get-color-from-palette($warn-footer-palette, 500)};
+  // $primary-footer-palette: map.get($palette-color, 'primary');
+  // $accent-footer-palette: map.get($palette-color, 'accent');
+  // $warn-footer-palette: map.get($palette-color, 'warn');
+  // $card-footer-Primary0: map-get($theme, primary);
+  // $card-footer-Accent0: map-get($theme, accent);
+  // $card-footer-Warn0: map-get($theme, warn);
+
+  // .bannerDisplay-button-primary {
+  //   // Read the 500 hue from the primary color palette.
+  //   // color: mat.get-color-from-palette($primary-footer-palette, 500);
+  //   color: mat.get-color-from-palette($primary-footer-palette);
+  // }
+
+  // .my-dialog-button-secondary {
+  //   // Read the 500 hue from the primary color palette.
+  //   // color: mat.get-color-from-palette($secondary-palette, 500);
+  //   color: mat.get-color-from-palette($secondary-palette);
+  // }
+
+//   .bannerDisplay-dark-theme {
+//       width: 100%;
+//       max-width: 2500px;
+//       height: auto;
+//       // padding: 0px 0px 0px 0px !important;
+//       // background: mat.get-color-from-palette($color-footer-config, 'lighter');
+//       // --mdc-dialog-container-color: mat.get-color-from-palette($color-footer-config, 'lighter');
+//       --mdc-elevated-card-container-color: transparent !important;
+//       --mdc-outlined-card-container-color: transparent !important;
+//       // --mdc-dialog-supporting-text-color: black !important;
+//       // color: mat.get-color-from-palette($color-footer-config, 'darker-contrast');
+//       // color: mat.get-color-from-palette($primary-footer-palette, 'darker');
+//       // background-color: transparent !important;
+//       // padding: 0px 0px 0px 0px !important;
+//       // overflow: hidden !important;
+//    }
+
+//    .cardDisplay-dark-theme {
+//     width: 100%;
+//     max-width: 2500px;
+//     height: auto;
+//     // padding: 0px 0px 0px 0px !important;
+//     // background: mat.get-color-from-palette($color-footer-config, 'lighter');
+//     // --mdc-dialog-container-color: mat.get-color-from-palette($color-footer-config, 'lighter');
+//     --mdc-elevated-card-container-color: transparent !important;
+//     --mdc-outlined-card-container-color: transparent !important;
+//     // --mdc-dialog-supporting-text-color: black !important;
+//     // color: mat.get-color-from-palette($color-footer-config, 'darker-contrast');
+//     // color: mat.get-color-from-palette($primary-footer-palette, 'darker');
+//     // background-color: transparent !important;
+//     // padding: 0px 0px 0px 0px !important;
+//     // overflow: hidden !important;
+//  }
+
+//    .cardDisplay-Accent {
+//     width: 100%;
+//     max-width: 2500px;
+//     height: auto;
+//     // padding: 0px 0px 0px 0px !important;
+//     // background: mat.get-color-from-palette($color-footer-config, 'lighter');
+//     // --mdc-dialog-container-color: mat.get-color-from-palette($color-footer-config, 'lighter');
+//     --mdc-elevated-card-container-color: var(--color-footer-accent) !important;
+//     --mdc-outlined-card-container-color: transparent !important;
+//     // --mdc-dialog-supporting-text-color: black !important;
+//     // color: mat.get-color-from-palette($color-footer-config, 'darker-contrast');
+//     // color: mat.get-color-from-palette($primary-footer-palette, 'darker');
+//     // background-color: transparent !important;
+//     // padding: 0px 0px 0px 0px !important;
+//     // overflow: hidden !important;
+//  }
+
+ .footer-Primary {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 2500px;
+  // height: auto;
+  // padding: 0px 0px 0px 0px !important;
+  // background: mat.get-color-from-palette($color-footer-config, 'lighter');
+  // --mdc-dialog-container-color: mat.get-color-from-palette($color-footer-config, 'lighter');
+  // --mdc-elevated-card-container-color: mat.get-color-from-palette($primary-footer-palette, 'default') !important;
+  // background: var(--color-footer-primary) !important;
+  background: var(--color-footer-background) !important;
+  // font-family: var($footerfont); //not working because variable not present here
+  // margin: 0;
+  // overflow-x: hidden;
+  // overflow: hidden;
+  // color: var($footertext);
+  // color: var($cardcolor);
+  font-weight: 200;
+  // background: $inverse;
+  // min-height: 100%;
+  // flex: 1;
+  // --mdc-outlined-card-container-color: transparent !important;
+  // --mdc-dialog-supporting-text-color: black !important;
+  // color: mat.get-color-from-palette($color-footer-config, 'darker-contrast');
+  // color: mat.get-color-from-palette($primary-footer-palette, 'darker');
+  // background-color: transparent !important;
+  // padding: 0px 0px 0px 0px !important;
+  // overflow: hidden !important;
+}
+
+//    .bannerDisplay-dark-theme .mat-mdc-card {
+//     mat-card {
+//       width: 100%;
+//       max-width: 2500px;
+//       height: auto;
+//       background: transparent !important;
+//     }
+
+//     // padding: 0px 0px 0px 0px !important;
+//     // background: mat.get-color-from-palette($color-footer-config, 'lighter');
+//     // --mdc-dialog-container-color: mat.get-color-from-palette($color-footer-config, 'lighter');
+//     // --mdc-elevated-card-container-color: transparent !important;
+//     // --mdc-outlined-card-container-color: transparent !important;
+//     // --mdc-dialog-supporting-text-color: black !important;
+//     // color: mat.get-color-from-palette($color-footer-config, 'darker-contrast');
+//     // color: mat.get-color-from-palette($primary-footer-palette, 'darker');
+//     // background-color: transparent !important;
+//     // padding: 0px 0px 0px 0px !important;
+//     // overflow: hidden !important;
+//  }
+
+
+}
+
+@mixin typography($theme) {
+  // Get the typography config from the theme.
+  $typography-footer-config: mat.m2-get-typography-config($theme);
+
+  .my-footer-font {
+    font-family: mat.m2-font-family($typography-footer-config);
+  }
+}
+
+@mixin theme($theme) {
+  $colorfooter-config: mat.m2-get-color-config($theme);
+  @if $colorfooter-config != null {
+    @include color($theme);
+  }
+
+  $typographyfooter-config: mat.m2-get-typography-config($theme);
+  @if $typographyfooter-config != null {
+    @include typography($theme);
+  }
+}

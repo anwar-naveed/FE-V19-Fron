@@ -1,0 +1,80 @@
+@use "sass:map";
+@use "@angular/material" as mat;
+@use "./dialog/default-dialog.scss" as dialog;
+@use "./card/dafault-card.scss" as card;
+@use "./footer/footer.scss" as footer;
+@include mat.core();
+$mat-primary2: (
+  100: #ebf9fa,
+  500: #0e6abb,
+  700: #1e88e5,
+  contrast: (
+    100: rgba(black, 0.87),
+    500: white,
+    700: white,
+  ),
+);
+$mat-secondary2: (
+  100: #fff5f2,
+  500: #12b8ce,
+  700: #26c6da,
+  contrast: (
+    100: white,
+    500: white,
+    700: white,
+  ),
+);
+$mat-warn2: (
+  100: FDEDE8,
+  500: #e91e63,
+  700: #e91e63,
+  contrast: (
+    100: white,
+    500: white,
+    700: white,
+  ),
+);
+
+/*Material Theme Colors*/
+
+$light-theme2-primary-pallete-color: mat.m2-define-palette($mat-primary2, 500);
+$light-theme2-accent-pallet-color: mat.m2-define-palette($mat-secondary2, 500);
+$light-theme2-warn-pallet-color: mat.m2-define-palette($mat-warn2, 500);
+
+
+// $theme: mat-light-theme($primary, $accent, $warn);
+
+// $background: map-get($theme, background);
+// $foreground: map-get($theme, foreground);
+
+$cyantheme2: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $light-theme2-primary-pallete-color,
+      accent: $light-theme2-accent-pallet-color,
+      warn: $light-theme2-warn-pallet-color,
+    ),
+    typography:
+      mat.m2-define-typography-config(
+        $font-family: "Poppins",
+      ),
+    density: 0,
+  )
+);
+.light-theme2 {
+  @include mat.all-component-themes($cyantheme2);
+  @include card.theme($cyantheme2);
+  @include dialog.theme($cyantheme2);
+  @include footer.theme($cyantheme2);
+}
+// $custom-typography: mat-typography-config(
+//   $font-family: 'Poppins, sans-serif'
+// );
+
+// Override the typography in the core CSS.
+// @include mat-core($custom-typography);
+
+// Default Theme
+//@include angular-material-theme($theme);
+
+// Dark Theme

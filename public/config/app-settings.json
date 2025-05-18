@@ -1,0 +1,17 @@
+{
+    "apiBaseUrl": "https://localhost:5001",
+    "apiUrls" : {
+        "admin" : "https://localhost:7213/api",
+        "file": "https://localhost:7272/api"
+    },
+    "apiHostName": "localhost",
+    "apiHostPort": 7002,
+    "serverHostName": "localhost",
+    "serverPort": 4000,
+    "pagettl": 2073600000,
+    "maxentries": 1000000,
+    "themeColor": "light-theme1",
+    "appId": "",
+    "logId": "",
+    "pId": ""
+}

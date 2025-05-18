@@ -1,0 +1,67 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  // Get the color config from the theme.
+  $color-dialog-config: mat.m2-get-color-config($theme);
+
+  // Get the primary color palette from the color-config.
+  $primary-palette: map.get($color-dialog-config, 'primary');
+  $accent-palette: map.get($color-dialog-config, 'accent');
+  $warn-palette: map.get($color-dialog-config, 'warn');
+
+  .my-dialog-button-primary {
+    // Read the 500 hue from the primary color palette.
+    // color: mat.get-color-from-palette($primary-palette, 500);
+    color: mat.m2-get-color-from-palette($primary-palette);
+  }
+
+  // .my-dialog-button-secondary {
+  //   // Read the 500 hue from the primary color palette.
+  //   // color: mat.get-color-from-palette($secondary-palette, 500);
+  //   color: mat.get-color-from-palette($secondary-palette);
+  // }
+
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: transparent !important;
+    --mdc-dialog-supporting-text-color: black !important;
+    // color: mat.get-color-from-palette($color-dialog-config, 'darker-contrast');
+    // color: mat.get-color-from-palette($primary-palette, 'darker');
+    // background-color: transparent !important;
+    padding: 0px 0px 0px 0px !important;
+    overflow: hidden !important;
+
+  // .my-custom-dialog-dark-theme {
+  //     padding: 0px 0px 0px 0px !important;
+  //     // background: mat.get-color-from-palette($color-dialog-config, 'lighter');
+  //     // --mdc-dialog-container-color: mat.get-color-from-palette($color-dialog-config, 'lighter');
+  //  }
+
+  //  .my-custom-dialog-light-theme {
+  //   padding: 0px 0px 0px 0px !important;
+  //   // background: mat.get-color-from-palette($color-dialog-config, 'lighter');
+  //   // --mdc-dialog-container-color: mat.get-color-from-palette($color-dialog-config, 'lighter');
+  //   }
+ }
+}
+
+@mixin typography($theme) {
+  // Get the typography config from the theme.
+  $typography-dialog-config: mat.m2-get-typography-config($theme);
+
+  .my-dialog-font {
+    font-family: mat.m2-font-family($typography-dialog-config);
+  }
+}
+
+@mixin theme($theme) {
+  $colordialog-config: mat.m2-get-color-config($theme);
+  @if $colordialog-config != null {
+    @include color($theme);
+  }
+
+  $typographydialog-config: mat.m2-get-typography-config($theme);
+  @if $typographydialog-config != null {
+    @include typography($theme);
+  }
+}

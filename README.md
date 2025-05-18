@@ -1,6 +1,6 @@
-# FEV19Fron
+# Front End Architecture Angular V-19 Project-Fron
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+This project was generated version 19.2.12. It has the capability to communicate with multiple backend APIs.
 
 ## Development server
 
