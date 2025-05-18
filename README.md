@@ -1,6 +1,6 @@
 # Front End Architecture Angular V-19 Project-Fron
 
-This project was generated version 19.2.12. It has the capability to communicate with multiple backend APIs.
+This project was generated version 19.2.12. It has the capability to communicate with multiple backend APIs. Development is being done in order to integrate with [Fron_Backend_Architecture](https://github.com/anwar-naveed/Fron_Backend_Architecture) but this architecture can be utilized any where else with other backend APIs by making some changes to components and app-settings.json files
 
 ## Development server
 
