@@ -1,8 +1,8 @@
 {
     "apiBaseUrl": "https://localhost:5001",
     "apiUrls" : {
-        "admin" : "https://localhost:7213/api",
-        "file": "https://localhost:7272/api"
+        "admin" : "https://localhost:7223/api",
+        "file": "https://localhost:7224/api"
     },
     "apiHostName": "localhost",
     "apiHostPort": 7002,
@@ -11,6 +11,7 @@
     "pagettl": 2073600000,
     "maxentries": 1000000,
     "themeColor": "light-theme1",
+    "organizationName": "Fron",
     "appId": "",
     "logId": "",
     "pId": ""

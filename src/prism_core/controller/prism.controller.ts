@@ -6,10 +6,11 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 // import { GlobalConfig } from "src/core/helper/global.config";
 // import { AppInjector } from "src/app/shared/services/common/app.injector.service";
 import { HttpHelper } from "src/core/helper/http.helper";
+import { LocalStorage } from "src/core/helper/local.storage";
 import { config, delay, filter } from "rxjs";
 import { GeneralService} from "src/app/shared/services/common/general.service";
-import { ErrorComponent, DialogData } from "src/app/shared/error/error.component";
-import { ImageViewerComponent } from "src/app/shared/image-viewer/image-viewer.component";
+import { ErrorComponent, DialogData } from "src/app/shared/components/error/error.component";
+import { ImageViewerComponent } from "src/app/shared/components/image-viewer/image-viewer.component";
 import { ViewportScroller, isPlatformBrowser } from "@angular/common";
 import { NavigationEnd, Scroll } from "@angular/router";
 // import { CustomerInfoViewComponent } from "src/app/components/customer-info-view/customer-info-view.component";
@@ -26,6 +27,7 @@ export abstract class PrismController<T> extends BaseController<T> {
     protected dialog = inject(MatDialog);
     public snackBar = inject(MatSnackBar);
     public httpHelper = inject(HttpHelper);
+    public localStorage = inject(LocalStorage);
     private titleBr = inject(Title);
     private meta = inject(Meta);
     private viewportScroller = inject(ViewportScroller);
@@ -312,4 +314,8 @@ export abstract class PrismController<T> extends BaseController<T> {
     }
 
     sorter = (sortBy) => (a, b) => a[sortBy].toLowerCase() > b[sortBy].toLowerCase() ? 1 : -1;
+
+    async getLastUrl(){
+        return this.localStorage.Get('lastUrl');
+    }
 }

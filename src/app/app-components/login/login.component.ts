@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { PrismController } from "src/prism_core/controller/prism.controller";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/auth/user.service';
-import { DialogData } from "../../shared/error/error.component";
+import { DialogData } from "../../shared/components/error/error.component";
 import { ConfigService } from 'src/core/services/config.service';
 
 @Component({
@@ -54,7 +54,13 @@ export class LoginComponent extends PrismController<any> implements OnInit {
       this.ShowErrorInDialog(this.data);
     }
     else{
-      this.navigate("/");
+      var lastUrl = await this.getLastUrl();
+      if (lastUrl){
+        this.navigate(lastUrl);
+      }
+      else {
+        this.navigate("/");
+      }
     }
   }
 }

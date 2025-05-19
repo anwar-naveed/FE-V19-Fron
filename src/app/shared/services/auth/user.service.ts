@@ -73,4 +73,8 @@ export class UserService extends PrismService<any> {
       })
     });
   }
+
+  async signOut(){
+    UserService.ClearToken();
+  }
 }
