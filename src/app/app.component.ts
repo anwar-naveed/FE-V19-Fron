@@ -4,7 +4,7 @@ import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from "@angular/router";
 import { SpinnerService } from 'src/app/shared/services/common/spinner.service';
 import { Observable } from 'rxjs';
-import { SpinnerComponent } from './shared/spinner/spinner.component';
+import { SpinnerComponent } from './shared/components/spinner/spinner.component';
 import { GlobalConfig } from "src/core/helper/global.config";
 import { AppInjector } from "src/core/services/app.injector.service";
 import { ConfigService } from 'src/core/services/config.service';

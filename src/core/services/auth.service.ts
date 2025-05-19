@@ -32,6 +32,7 @@ export class AuthService extends BaseService<any> {
 
     public isAuthenticated(): boolean {
         const token = this.localStorage.Get('token');
+        console.log('token valid:', !this.jwtHelper.isTokenExpired(token));
         //Check if token is expired.
         return !this.jwtHelper.isTokenExpired(token);
     }

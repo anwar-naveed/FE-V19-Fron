@@ -2,7 +2,7 @@
     <div class="header {{data.classes}}">
         <h2>
             <img *ngIf="!data.link1" class="img-del" [src]="data.icon?data.icon:''" height="40px" alt="">
-            {{data.title}} {{data.classes}}
+            {{data.title}}
         </h2>
         <button mat-icon-button aria-label="Close Dialog" class="Close" (click)="close(true)" >
             <mat-icon>close</mat-icon>

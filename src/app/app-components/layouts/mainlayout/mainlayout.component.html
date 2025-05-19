@@ -1,0 +1,75 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div class="main-container">
+    <!-- ============================================================== -->
+    <!-- Topbar - style you can find in header.scss -->
+    <!-- ============================================================== -->
+    <mat-toolbar color="primary" class="topbar telative">
+        <!-- ============================================================== -->
+        <!-- sidebar toggle -->
+        <!-- ============================================================== -->
+          <div>
+            <button mat-icon-button (click)="snav.toggle()" value="sidebarclosed">
+              <mat-icon>menu</mat-icon>
+            </button>
+          </div>
+
+        <!-- ============================================================== -->
+        <!-- Logo - style you can find in header.scss -->
+        <!-- ============================================================== -->
+        <div class="navbar-header">
+            <!-- <a class="navbar-brand" href="index.html"> -->
+            <a class="navbar-brand" href="/">
+
+              <div *ngIf="(logo && (logo ?? false) && logo.length > 0)">
+                  <span *ngFor="let log of logo" class="text-logo-icon vam" fxShow="false" fxShow.gt-xs>
+                    <!-- <img *ngIf="(log && (log ?? false) && log.count%2==0)" [src]="'assets/images/logos/'+log.guid+'.png'" alt="homepage"> -->
+                    <img *ngIf="(log && (log ?? false) && log.count%1==0)" [src]="log.guid" style="width: 150px; height: 65px;" alt="homepage">
+                  </span>
+              </div>
+
+            </a>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- app header component - style you can find in header.scss / header.component.ts-->
+        <!-- ============================================================== -->
+        <app-header class="d-flex align-items-center ml-auto"></app-header>
+    </mat-toolbar>
+    <!-- ============================================================== -->
+    <!-- End Topbar - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+        <!-- ============================================================== -->
+        <!-- Sidebar - style you can find in sidebar.scss -->
+        <!-- ============================================================== -->
+        <mat-sidenav #snav id="snav" class="dark-sidebar pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches"  >
+
+                <app-sidebar></app-sidebar>
+
+
+        </mat-sidenav>
+        <!-- ============================================================== -->
+        <!-- Sidebar - style you can find in sidebar.scss -->
+        <!-- ============================================================== -->
+
+        <!-- ============================================================== -->
+        <!-- Page container - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <mat-sidenav-content class="page-wrapper">
+
+                <div class="page-content">
+                        <!-- <router-outlet><app-spinner (loadingChange)="ChangeLoading($event)" (navigationChange)="ChangeNavigation($event)" *ngIf="(loadingSpinner | async) || navigationSpinner"></app-spinner></router-outlet> -->
+                        <!-- <router-outlet><app-spinner (loadingChange)="ChangeLoading($event)" *ngIf="(loadingSpinner | async) || navigationSpinner"></app-spinner></router-outlet> -->
+                        <router-outlet></router-outlet>
+
+                </div>
+                <div class="displaycenteralign"><app-footer class="displaycenteralign vam footer-Primary"></app-footer></div>
+        </mat-sidenav-content>
+        <!-- ============================================================== -->
+        <!-- Page container - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+
+    </mat-sidenav-container>
+</div>

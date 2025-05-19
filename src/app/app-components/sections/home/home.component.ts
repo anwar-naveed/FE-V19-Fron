@@ -1,8 +1,8 @@
 ﻿import { Component } from '@angular/core';
 import { first } from 'rxjs/operators';
+import { UserService } from 'src/app/shared/services/auth/user.service';
 
 // import { User } from '@app/_models';
-import { UserService } from '../../shared/services/auth/user.service';
 
 @Component({ 
     // standalone: false,

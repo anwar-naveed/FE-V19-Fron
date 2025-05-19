@@ -4,7 +4,7 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
 } from '@angular/core';
-import { SpinnerService } from '../services/common/spinner.service';
+import { SpinnerService } from '../../services/common/spinner.service';
 import { NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { debounceTime, startWith } from 'rxjs/operators';
