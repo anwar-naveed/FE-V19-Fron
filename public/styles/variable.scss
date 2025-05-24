@@ -357,10 +357,6 @@ $font-family: sans-serif;
   }
 }
 
-.vam {
-  vertical-align:middle
-}
-
 .displaycenter {
   width: 100%;
   height: 100%;
@@ -369,7 +365,7 @@ $font-family: sans-serif;
   align-items: center !important;
 }
 
-.displaycenteralign {
+.displaycenteralignwithoutwidthheight {
   // width: 100%;
   // height: 100%;
   display: flex !important;
@@ -378,7 +374,7 @@ $font-family: sans-serif;
   align-items: center !important;
 }
 
-.displaycenterwithoutalign {
+.displaycenterwithoutalignwidthheight {
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: center !important;
@@ -602,9 +598,6 @@ span.xl {
  .m-h-50 { max-height: 50px;}
  .font-bold { font-weight: bold;}
 
- .v-a-m {
-  vertical-align: middle;
- }
  .fit-height { height: fit-content;}
 
 .d-inline-block {

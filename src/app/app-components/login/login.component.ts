@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { PrismController } from "src/prism_core/controller/prism.controller";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { UserService } from 'src/app/shared/services/auth/user.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { DialogData } from "../../shared/components/error/error.component";
 import { ConfigService } from 'src/core/services/config.service';
 
@@ -20,7 +20,7 @@ export class LoginComponent extends PrismController<any> implements OnInit {
     data: DialogData = { title: ""};
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
+    private auth_Service: AuthService,
     private configService: ConfigService
   ) {
     super()
@@ -44,7 +44,7 @@ export class LoginComponent extends PrismController<any> implements OnInit {
     }
     this.error = '';
     this.loading = true;
-    var res = await this.userService.Login(this.f['username'].value, this.f['password'].value)
+    var res = await this.auth_Service.Login(this.f['username'].value, this.f['password'].value)
     if(!res.Data.status){
       this.error = res.Data.message;
       this.loading = false;

@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Fill Form</h1>
+<div mat-dialog-content>
+    <form [formGroup]="form">
+        <ng-container *ngFor="let key of keys">
+            <mat-form-field *ngIf="key !== 'id'" appearance="fill" class="full-width">
+                <mat-label>{{ key | titlecase }}</mat-label>
+
+                <!-- roleId field -->
+                <mat-select *ngIf="key === 'roleId'" [formControlName]="key">
+                    <mat-option *ngFor="let role of roles" [value]="role.id">
+                        {{ role.name }}
+                    </mat-option>
+                </mat-select>
+
+                <!-- Boolean type -->
+                <mat-select *ngIf="isBoolean(key)" [formControlName]="key">
+                    <mat-option [value]="true">True</mat-option>
+                    <mat-option [value]="false">False</mat-option>
+                </mat-select>
+
+                <!-- Password or text input -->
+                <input *ngIf="!isBoolean(key) && key !== 'roleId'" matInput [formControlName]="key"
+                    [type]="isPasswordField(key) ? 'password' : 'text'" />
+            </mat-form-field>
+        </ng-container>
+    </form>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button color="primary" (click)="onSave()">Save</button>
+</div>

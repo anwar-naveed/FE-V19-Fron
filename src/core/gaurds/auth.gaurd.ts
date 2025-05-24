@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild } from '@angular/router';
-import { LocalStorage } from './local.storage';
+import { LocalStorage } from '../helper/local.storage';
 import { AuthService } from "../services/auth.service";
 
 @Injectable({ providedIn: 'root' })
@@ -13,15 +13,15 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     ){}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        return this.CheckToken(route);
+        return this.CheckToken(state);
     }
 
     // as null was not working therefore used this
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-        return this.CheckToken(route);
+        return this.CheckToken(state);
     }
 
-    private CheckToken(route: ActivatedRouteSnapshot) {
+    private CheckToken(route: RouterStateSnapshot) {
         if (this.localStorage.Get('token')) {
             if (this.authService.isAuthenticated()){
                 return true;
@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         }
     }
 
-    private navigateToUrl(route: ActivatedRouteSnapshot, urlToRoute: string){
+    private navigateToUrl(route: RouterStateSnapshot, urlToRoute: string){
         //Router to save last url before navigating to login
         if (route) {
             this.localStorage.Set('lastUrl', route.url);

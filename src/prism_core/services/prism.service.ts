@@ -1,9 +1,12 @@
 import { BaseService } from "src/core/services/base.service";
 import { DtoResult } from "src/core/entities/dto-result";
 import { HelperMethods } from "src/core/helper/helper.methods";
+import { AsyncApiCallHelperService } from "src/core/services/async-api-call-helper.service";
+import { inject } from "@angular/core";
 
 export class PrismService<T> extends BaseService<T> {
     public propsToInclude = [];
+    protected apiHelperService = inject(AsyncApiCallHelperService);
     constructor (controller: string) {
         super(controller);
     }

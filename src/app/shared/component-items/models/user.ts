@@ -1,60 +1,86 @@
-export interface LoginRequest {
-  login: string;
-  password: string;
+export interface CreateUser {
+  name: string,
+  username: string,
+  password: string,
+  roleId: bigint
 }
 
-export interface Login {
-  login: string,
+export interface UpdateUser {
+  id: bigint,
+  name: string,
+  username: string,
   password: string,
-  user: User,
-  token: string;
+  isActive: boolean
 }
 
 export interface User {
-  id: string;
-  fullName: string;
-  roleId: number;
-  phone: string;
-  mobile: string;
-  email: string;
-  customerId: string;
-  role: Role;
-  status: number,
-  secretQuestion: string,
-  secretAnswer: string,
-  overseasAgentId: string,
-  linkPartyId: string,
-  employeeId: string,
-  salesTeamId: string,
-  buyerId: string,
-  branchOfficeId: string,
-  lastLogin: Date,
-  companyId: string,
-  createUserId: string,
-  createTime: string,
-  editUserId: string,
-  editTime: string
-  // username: string;
-  // bio: string;
-  // image: string;
-}
-
-export interface Role {
+  id: bigint,
   name: string,
-  roleType: number,
-  roleRights: [],
-  users: [],
-  id: number,
-  companyId: string,
-  createUserId: string,
-  createTime: string,
-  editUserId: string,
-  editTime: string
+  username: string,
+  // isActive: boolean,
+  // createdOn: Date,
+  // modifiedOn: Date
 }
+export type UserArray = User[];
 
-export interface UserResponse {
-  user: User;
-}
+
+// export interface LoginRequest {
+//   login: string;
+//   password: string;
+// }
+
+// export interface Login {
+//   login: string,
+//   password: string,
+//   user: User,
+//   token: string;
+// }
+
+// export interface User {
+//   id: string;
+//   fullName: string;
+//   roleId: number;
+//   phone: string;
+//   mobile: string;
+//   email: string;
+//   customerId: string;
+//   role: Role;
+//   status: number,
+//   secretQuestion: string,
+//   secretAnswer: string,
+//   overseasAgentId: string,
+//   linkPartyId: string,
+//   employeeId: string,
+//   salesTeamId: string,
+//   buyerId: string,
+//   branchOfficeId: string,
+//   lastLogin: Date,
+//   companyId: string,
+//   createUserId: string,
+//   createTime: string,
+//   editUserId: string,
+//   editTime: string
+//   // username: string;
+//   // bio: string;
+//   // image: string;
+// }
+
+// export interface Role {
+//   name: string,
+//   roleType: number,
+//   roleRights: [],
+//   users: [],
+//   id: number,
+//   companyId: string,
+//   createUserId: string,
+//   createTime: string,
+//   editUserId: string,
+//   editTime: string
+// }
+
+// export interface UserResponse {
+//   user: User;
+// }
 
 
 // "{

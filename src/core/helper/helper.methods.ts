@@ -7,18 +7,26 @@ import { Buffer } from "buffer";
 
 export class HelperMethods {
     static CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    
+
     static MONTHS = [
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ]
+
+    static fieldTypes: { [key: string]: 'string' | 'boolean' | 'number' | 'password' } = {
+        name: 'string',
+        isActive: 'boolean',
+        age: 'number',
+        password: 'password'
+    };
+
     static EncodeBase64(text: string) {
         return Buffer.from(text).toString('base64');
-      }
-    
-    static DecodeBase64(encodedText: string) {
-    return Buffer.from(encodedText, 'base64').toString('binary');
     }
-    
+
+    static DecodeBase64(encodedText: string) {
+        return Buffer.from(encodedText, 'base64').toString('binary');
+    }
+
     static RemoveFromArrByIndex(Arr: any[], index: number) {
         return [...Arr.slice(0, index), ...Arr.splice(index + 1, Arr.length)]
     }
@@ -41,30 +49,30 @@ export class HelperMethods {
 
     static SetDate(dateObject: Date): string {
         if (!dateObject) {
-            return null  as any; //used as any from stack overflow
+            return null as any; //used as any from stack overflow
         }
         const date = new Date(dateObject),
-        yr = date.getFullYear(),
-        month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1),
-        day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate(),
-        newDate = yr + '-' + month + '-' + day; //can be any format as required.
-        
+            yr = date.getFullYear(),
+            month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1),
+            day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate(),
+            newDate = yr + '-' + month + '-' + day; //can be any format as required.
+
         return newDate + 'T00:00:00';
     }
 
     static SetDateWithTime(dateObject: Date, timeStr?: string): string {
         if (!dateObject) {
-            return null  as any; //used as any from stack overflow
+            return null as any; //used as any from stack overflow
         }
 
         const date = new Date(dateObject),
-        yr = date.getFullYear(),
-        month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1),
-        day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate(),
-        h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours(),
-        m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes(),
-        s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds(),
-        newDate = yr + '-' + month + '-' + day; //can be any format as required.
+            yr = date.getFullYear(),
+            month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1),
+            day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate(),
+            h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours(),
+            m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes(),
+            s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds(),
+            newDate = yr + '-' + month + '-' + day; //can be any format as required.
 
         if (timeStr) {
             return newDate + 'T' + timeStr;
@@ -100,9 +108,9 @@ export class HelperMethods {
         if (searchBy != null && searchValue != null) {
             return searchArray.filter((item) => {
                 return ((item[searchBy] != null ? (item[searchBy] + '') : '')
-                .toUpperCase()
-                .includes((searchValue + '')
-                .toUpperCase()));
+                    .toUpperCase()
+                    .includes((searchValue + '')
+                        .toUpperCase()));
             });
         } else {
             return [...searchArray];
@@ -191,7 +199,7 @@ export class HelperMethods {
         if (!searchValue) {
             return linkPredicate;
         }
-        
+
         switch (searchLogic) {
             case SearchLogics.EQUALS: {
                 linkPredicate = columnName + '== "' + searchValue + '"';
@@ -242,7 +250,7 @@ export class HelperMethods {
         if (!searchValue) {
             return linkPredicate;
         }
-        
+
         switch (searchLogic) {
             case SearchLogics.EQUALS: {
                 linkPredicate = `${columnName} == ${isQuoted ? '"' : ""}${searchValue}${isQuoted ? '"' : ""}`;
@@ -333,7 +341,7 @@ export class HelperMethods {
                             Object.keys(element).forEach((y) => {
                                 if (propToInclude.includes(x + "." + y)) {
                                     if (toString.call(element[y]) === "[object Object]") {
-                                        Object.keys(element[y]).forEach((z) => { 
+                                        Object.keys(element[y]).forEach((z) => {
                                             if (toString.call(element[y][z]) === "[object Object]") {
                                                 delete element[y][z];
                                             }
@@ -341,7 +349,7 @@ export class HelperMethods {
                                     } else if (Array.isArray(element[y])) {
                                         element[y].forEach((obj: any) => {
                                             if (toString.call(obj) === "[object Object]") {
-                                                Object.keys(obj).forEach((z) => { 
+                                                Object.keys(obj).forEach((z) => {
                                                     if (toString.call(obj[z]) === "[object Object]") {
                                                         delete obj[z];
                                                     }
@@ -377,7 +385,7 @@ export class HelperMethods {
         return '';
     }
 
-    static ToWords(input : any) {
+    static ToWords(input: any) {
         input = HelperMethods.ConvertToString(input);
 
         var regex = /[A-Z\xC0-\xD6\xD8-\xDE]?[a-z\xDF-\xF6\xF8-\xFF]+|[A-Z\xC0-\xD6\xD8-\xDE]+(?![a-z\xDF-\xF6\xF8-\xFF])|\d+/g;
@@ -393,14 +401,14 @@ export class HelperMethods {
                 // convert first letter to upper case (the word is in lowercase)
                 tempStr = tempStr.substring(0, 1).toUpperCase() + tempStr.substring(1);
             }
-            
+
             result += tempStr;
         }
 
         return result;
     }
 
-    static ToCamelCaseString(input : any) {
+    static ToCamelCaseString(input: any) {
         let words = HelperMethods.ToWords(input);
         return HelperMethods.ToCamelCase(words);
     }
@@ -417,7 +425,7 @@ export class HelperMethods {
 
     static GetMonday(d: Date) {
         const day = d.getDay(),
-        diff = d.getDate() - day + (day == 0 ? -6 : 1);
+            diff = d.getDate() - day + (day == 0 ? -6 : 1);
         return new Date(d.setDate(diff));
     }
 
@@ -429,6 +437,10 @@ export class HelperMethods {
             }
         });
         return [...newArr];
+    }
+
+    static RemoveValueFromArray<T>(arr: T[], valueToRemove: T): T[] {
+        return arr.filter(item => item !== valueToRemove);
     }
 
     static CheckForValidations(data: any, validations: Validation[]) {
@@ -469,7 +481,7 @@ export class HelperMethods {
     static SortArrByField(arr: any[], fieldName: string, fieldType: FieldTypes, direction: string) {
         let sortedArr = arr.sort((a, b) => {
             // if (FieldTypes.NUMBER == fieldType) {
-                
+
             // } else 
             if (FieldTypes.DATE == fieldType) {
                 let dateA = new Date(a[fieldName]), dateB = new Date(b[fieldName]);
@@ -487,6 +499,16 @@ export class HelperMethods {
         }
 
         return sortedArr;
+    }
+
+    static containsAny(arr1: string[], arr2: string[]): boolean {
+        return arr1.some(item1 =>
+            arr2.some(item2 => item2.toLowerCase().includes(item1.toLowerCase()))
+        );
+    }
+
+    static isBoolean(key: string): boolean {
+        return this.fieldTypes[this.ToCamelCaseString(key)] === 'boolean';
     }
 }
 
@@ -543,3 +565,10 @@ export const RateSourceList = [
         value: 3
     }
 ]
+
+export enum Role {
+    SUPERADMIN = 'superadmin',
+    ADMIN = 'admin',
+    MANAGER = 'manager',
+    USER = 'user'
+}

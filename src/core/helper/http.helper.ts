@@ -60,7 +60,9 @@ export class HttpHelper {
                 // console.log('Request method:', requestMethod); //shutdown later or create a log file node has option
                 let bodyString;
                 if (requestBody && (requestBody ?? false)) {
-                    bodyString = Buffer.from(JSON.stringify(requestBody), 'utf-8').toString();
+                    bodyString = Buffer.from(JSON.stringify(requestBody, (key, value) =>
+                        typeof value === "bigint" ? value.toString() : value,
+                      ), 'utf-8').toString();
                 }
                 // console.log('After request body string creation'); //shutdown later or create a log file node has option
 
@@ -163,7 +165,9 @@ export class HttpHelper {
     private async Request(url: string, method: string, headers?: any, body?: any): Promise<any> {
         const options: any = <any>{};
         if (body) {
-            options.body = body;
+            options.body = JSON.stringify(body, (key, value) =>
+                typeof value === "bigint" ? value.toString() : value,
+              );
         }
 
         if (method) {
@@ -183,7 +187,9 @@ export class HttpHelper {
             });
             if (body && (body ?? false)) {
                 //headers.append('Content-Length', (Buffer.byteLength(JSON.stringify(body))).toString())
-                newHeader.set('Content-Length', Buffer.byteLength(JSON.stringify(body)));
+                newHeader.set('Content-Length', Buffer.byteLength(JSON.stringify(body, (key, value) =>
+                    typeof value === "bigint" ? value.toString() : value,
+                  )));
                 newHeader.set('Accept', 'application/json, text/plain, */*');
                 newHeader.set('Accept-Encoding', 'gzip, deflate, br');
                 newHeader.set('Accept-Charset', 'UTF-8');

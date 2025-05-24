@@ -116,7 +116,7 @@ export abstract class BaseService<T extends any> {
         return await this.httpHelper.Put<DtoResult<T>>((await this.getUrl(method, params)), this.mergeHeaders(BaseService.headers, headers), body);
     }
 
-    async del(method?: string, body? : DtoResult<T>, params?: any[], headers?: any): Promise<DtoResult<T>> {
+    async del(method?: string, body? : T, params?: any[], headers?: any): Promise<DtoResult<T>> {
         return await this.httpHelper.Delete<DtoResult<T>>((await this.getUrl(method, params)), this.mergeHeaders(BaseService.headers, headers), body);
     }
 
