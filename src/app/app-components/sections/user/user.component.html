@@ -1,0 +1,8 @@
+<button
+          mat-button
+          (click)="createUser()"
+        >
+          <mat-icon>{{ maticon.Task }}</mat-icon>
+          Create User
+        </button>
+<app-dynamic-table [data]="getAllUsers()"></app-dynamic-table>

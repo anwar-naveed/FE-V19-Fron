@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
 import { NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -54,6 +46,50 @@ import { PortalModule } from '@angular/cdk/portal';
  * NgModule that includes all Material modules that are required to serve the demo-app.
  */
 @NgModule({
+    imports: [
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatBottomSheetModule,
+        MatButtonToggleModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatChipsModule,
+        MatTableModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatGridListModule,
+        MatIconModule,
+        MatInputModule,
+        MatListModule,
+        MatMenuModule,
+        MatPaginatorModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        MatRippleModule,
+        MatSelectModule,
+        MatBadgeModule,
+        MatSidenavModule,
+        MatSlideToggleModule,
+        MatSliderModule,
+        MatSnackBarModule,
+        MatSortModule,
+        MatStepperModule,
+        MatTabsModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        MatNativeDateModule,
+        CdkTableModule,
+        A11yModule,
+        BidiModule,
+        CdkAccordionModule,
+        ObserversModule,
+        OverlayModule,
+        PlatformModule,
+        PortalModule
+      ],
     exports: [
         MatAutocompleteModule,
         MatButtonModule,
@@ -101,3 +137,18 @@ import { PortalModule } from '@angular/cdk/portal';
     // providers: [{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false} },],
 })
 export class MaterialModule { }
+
+export enum MaterialIcon {
+    Home = 'home',
+    Menu = 'menu',
+    AccountCircle = 'account_circle',
+    Settings = 'settings',
+    Search = 'search',
+    Favorite = 'favorite',
+    Info = 'info',
+    Help = 'help',
+    Logout = 'logout',
+    Login = 'login',
+    Task = 'add_task'
+    // Add more icons as needed
+  }

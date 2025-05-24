@@ -1,67 +1,178 @@
 import { Injectable } from '@angular/core';
+import { PrismService } from 'src/prism_core/services/prism.service';
+import { Observable, delay, of } from "rxjs";
+import { Role } from 'src/core/helper/helper.methods';
+import { ThemeService } from '../../services/common/theme.service';
 
-export interface Menu {
-  state: string;
-  name: string;
-  type: string;
-  icon: string;
+export interface MenuItem {
+  label: string;
+  icon?: string;
+  action?: () => void;
+  children?: MenuItem[];
+  // loadChildren?: () => Observable<MenuItem[]>; // Lazy-load
+  activatedRole?: string[];
 }
 
-const MENUITEMS = [
-  { state: 'main', type: 'link', name: 'Home', icon: 'home' },
-  { state: 'about', type: 'link', name: 'About', icon: 'layers' },
-  // { state: 'privacy', type: 'link', name: 'Privacy', icon: 'security' },
-  { state: 'contact', type: 'link', name: 'Contact Us', icon: 'contacts' },
+export interface SideBarMenuItem {
+  label: string;
+  icon?: string;
+  route?: string;
+  children?: SideBarMenuItem[];
+  roles?: string[]; // Allowed roles for this item
+  expanded?: boolean;
+}
 
-  // { state: 'dashboard', name: 'Dashboard', type: 'link', icon: 'av_timer' },
-  // { state: 'button', type: 'link', name: 'Buttons', icon: 'crop_7_5' },
-  // { state: 'grid', type: 'link', name: 'Grid List', icon: 'view_comfy' },
-  // { state: 'lists', type: 'link', name: 'Lists', icon: 'view_list' },
-  // { state: 'menu', type: 'link', name: 'Menu', icon: 'view_headline' },
-  // { state: 'tabs', type: 'link', name: 'Tabs', icon: 'tab' },
-  // { state: 'stepper', type: 'link', name: 'Stepper', icon: 'web' },
-  // {
-  //   state: 'expansion',
-  //   type: 'link',
-  //   name: 'Expansion Panel',
-  //   icon: 'vertical_align_center'
-  // },
-  // { state: 'chips', type: 'link', name: 'Chips', icon: 'vignette' },
-  // { state: 'toolbar', type: 'link', name: 'Toolbar', icon: 'voicemail' },
-  // {
-  //   state: 'progress-snipper',
-  //   type: 'link',
-  //   name: 'Progress snipper',
-  //   icon: 'border_horizontal'
-  // },
-  // {
-  //   state: 'progress',
-  //   type: 'link',
-  //   name: 'Progress Bar',
-  //   icon: 'blur_circular'
-  // },
-  // {
-  //   state: 'dialog',
-  //   type: 'link',
-  //   name: 'Dialog',
-  //   icon: 'assignment_turned_in'
-  // },
-  // { state: 'tooltip', type: 'link', name: 'Tooltip', icon: 'assistant' },
-  // { state: 'snackbar', type: 'link', name: 'Snackbar', icon: 'adb' },
-  // { state: 'slider', type: 'link', name: 'Slider', icon: 'developer_mode' },
-  // {
-  //   state: 'slide-toggle',
-  //   type: 'link',
-  //   name: 'Slide Toggle',
-  //   icon: 'all_inclusive'
-  // }
+export const MENU_DATA: SideBarMenuItem[] = [
+  {
+    label: 'Dashboard',
+    icon: 'dashboard',
+    route: '/dashboard',
+    roles: [Role.USER, Role.ADMIN, Role.MANAGER],
+  },
+  {
+    label: 'Admin',
+    icon: 'shopping_cart',
+    roles: [Role.USER, Role.ADMIN],
+    children: [
+      { label: 'User', route: '/main/user', roles: [Role.ADMIN] },
+      { label: 'Role', route: '/main/role', roles: [Role.ADMIN] },
+      { label: 'Clothing', route: '/products/clothing', roles: [Role.USER] },
+      {
+        label: 'More',
+        roles: ['USER', 'ADMIN'],
+        children: [
+          { label: 'Shoes', route: '/products/shoes', roles: [Role.USER] },
+          {
+            label: 'Accessories',
+            route: '/products/accessories',
+            roles: ['ADMIN', 'MANAGER'],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    label: 'Settings',
+    icon: 'settings',
+    roles: [Role.ADMIN],
+    children: [
+      { label: 'Profile', route: '/settings/profile', roles: [Role.MANAGER] },
+      { label: 'Security', route: '/settings/security', roles: [Role.ADMIN] },
+    ],
+  },
 ];
 
 @Injectable({
   providedIn: 'root'
 })
-export class MenuItems {
-  getMenuItems(): Menu[] {
-    return MENUITEMS;
+export class MenuItems extends PrismService<any> {
+
+  headerMenuItems: MenuItem[] = [
+    {
+      label: 'Themes',
+      icon: 'home',
+      activatedRole: [Role.USER],
+      children: [
+        { label: 
+          'Dark-1', 
+          icon: 'devices', 
+          activatedRole: [Role.ADMIN],
+          action: () => { this.themeService.changeTheme("dark-theme1"); },
+         },
+        { label: 
+          'Light-1', 
+          icon: 'checkroom', 
+          activatedRole: [Role.USER],
+          action: () => { this.themeService.changeTheme("light-theme1"); },
+        },
+        { label: 
+          'Light-2', 
+          icon: 'checkroom', 
+          activatedRole: [Role.USER],
+          action: () => { this.themeService.changeTheme("light-theme2"); },
+        },
+      ]
+    },
+    {
+      label: 'Home',
+      icon: 'home',
+      action: () => { console.log('Item 1 clicked'); },
+      activatedRole: [Role.USER]
+    },
+    {
+      label: 'Products',
+      icon: 'shopping_cart',
+      activatedRole: [Role.USER],
+      children: [
+        { label: 'Electronics', icon: 'devices', activatedRole: [Role.ADMIN] },
+        { label: 'Clothing', icon: 'checkroom', activatedRole: [Role.USER] },
+        {
+          label: 'More',
+          icon: 'expand_more',
+          activatedRole: [Role.USER],
+          children: [
+            { label: 'Shoes', icon: 'sports_shoe', activatedRole: [Role.USER] },
+            { label: 'Accessories', icon: 'watch', activatedRole: [Role.ADMIN, Role.MANAGER] },
+          ],
+        },
+      ],
+    },
+    {
+      label: 'About Us',
+      icon: 'info',
+      activatedRole: [Role.MANAGER]
+    },
+  ];
+
+  dataMap = new Map<string, string[]>([
+    ["Fruits", ["Apple", "Orange", "Banana"]],
+    ["Vegetables", ["Tomato", "Potato", "Onion"]],
+    ["Apple", ["Fuji", "Macintosh"]],
+    ["Onion", ["Yellow", "White", "Purple"]],
+    ["Macintosh", ["Yellow", "White", "Purple"]],
+  ]);
+
+  constructor(private themeService: ThemeService) {
+    super("");
+  }
+
+  getHeaderMenuItems(allowedRoles?: string[]): MenuItem[] {
+    if (allowedRoles) {
+      const menu = this.filterMenuItemsByRoles(this.headerMenuItems, allowedRoles);
+      return menu.length > 0 ? menu : [{ label: 'No Menu' }];
+    }
+    return [{ label: 'No Menu' }];
+  }
+
+  public getChildren(node: string) {
+    // adding delay to mock a REST API call
+    return of(this.dataMap.get(node)).pipe(delay(1000));
+  }
+
+  public isExpandable(node: string): boolean {
+    return this.dataMap.has(node);
+  }
+
+  private filterMenuItemsByRoles(menuItems: MenuItem[], allowedRoles: string[]): MenuItem[] {
+    return menuItems
+      .map(item => {
+        const filteredChildren = item.children
+          ? this.filterMenuItemsByRoles(item.children, allowedRoles)
+          : [];
+  
+        const isAuthorized = item.activatedRole?.some(role =>
+          allowedRoles.some(userRole => userRole.toLowerCase() === role.toLowerCase())
+        );
+  
+        if (isAuthorized || filteredChildren.length > 0) {
+          return {
+            ...item,
+            children: filteredChildren.length > 0 ? filteredChildren : undefined
+          };
+        }
+  
+        return null;
+      })
+      .filter((item): item is NonNullable<typeof item> => item !== null);
   }
 }

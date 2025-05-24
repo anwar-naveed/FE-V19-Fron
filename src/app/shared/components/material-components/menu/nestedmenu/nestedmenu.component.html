@@ -1,0 +1,41 @@
+<ng-container *ngFor="let item of menuItems">
+    <!-- Leaf menu item -->
+    <button
+      *ngIf="!item.children"
+      mat-menu-item
+      (click)="handleClick(item)"
+    >
+      <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+      {{ item.label }}
+    </button>
+  
+    <!-- Menu item with submenu -->
+    <ng-container *ngIf="item.children">
+      <div style="display: inline-block;">
+        <button
+          mat-menu-item
+          [matMenuTriggerFor]="subMenu"
+          #trigger="matMenuTrigger"
+          (mouseenter)="onParentMouseEnter(trigger)"
+          
+          aria-haspopup="true"
+        >
+          <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+          {{ item.label }}
+        </button>
+  
+        <mat-menu
+          #subMenu="matMenu"
+          [overlapTrigger]="false"
+          [hasBackdrop]="false"
+          (mouseenter)="onSubMenuMouseEnter()"
+          
+        >
+          <ng-template matMenuContent>
+            <app-nestedmenu [menuItems]="item.children"></app-nestedmenu>
+          </ng-template>
+        </mat-menu>
+      </div>
+    </ng-container>
+  </ng-container>
+  

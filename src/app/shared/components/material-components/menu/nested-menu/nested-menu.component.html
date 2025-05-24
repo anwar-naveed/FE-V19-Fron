@@ -1,0 +1,27 @@
+<mat-nav-list>
+    <ng-container *ngFor="let item of menuItems">
+      <mat-list-item>
+        <button
+          mat-button
+          (click)="item.children ? toggleExpand(item) : null"
+          [routerLink]="!item.children ? item.route : null"
+          [attr.aria-expanded]="item.expanded"
+        >
+          <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+          {{ item.label }}
+          <mat-icon *ngIf="item.children" class="expand-icon">
+            {{ item.expanded ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+        </button>
+      </mat-list-item>
+  
+      <div
+        *ngIf="item.children && item.expanded"
+        class="nested-menu"
+        style="padding-left: 20px;"
+      >
+        <app-nested-menu [menuItems]="item.children"></app-nested-menu>
+      </div>
+    </ng-container>
+  </mat-nav-list>
+  

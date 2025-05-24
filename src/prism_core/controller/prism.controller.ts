@@ -7,6 +7,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 // import { AppInjector } from "src/app/shared/services/common/app.injector.service";
 import { HttpHelper } from "src/core/helper/http.helper";
 import { LocalStorage } from "src/core/helper/local.storage";
+import { AuthService } from "src/core/services/auth.service";
 import { config, delay, filter } from "rxjs";
 import { GeneralService} from "src/app/shared/services/common/general.service";
 import { ErrorComponent, DialogData } from "src/app/shared/components/error/error.component";
@@ -28,6 +29,7 @@ export abstract class PrismController<T> extends BaseController<T> {
     public snackBar = inject(MatSnackBar);
     public httpHelper = inject(HttpHelper);
     public localStorage = inject(LocalStorage);
+    public authService = inject(AuthService);
     private titleBr = inject(Title);
     private meta = inject(Meta);
     private viewportScroller = inject(ViewportScroller);
@@ -217,6 +219,10 @@ export abstract class PrismController<T> extends BaseController<T> {
         })
     }
 
+    async updateTitle(title){
+        this.titleBr.setTitle(title);
+    }
+
     async updateTitleAndMeta(title, tag){
         // SEO metadata
         this.titleBr.setTitle(title);
@@ -317,5 +323,9 @@ export abstract class PrismController<T> extends BaseController<T> {
 
     async getLastUrl(){
         return this.localStorage.Get('lastUrl');
+    }
+
+    getRoles() {
+        return this.authService.getRoles();
     }
 }

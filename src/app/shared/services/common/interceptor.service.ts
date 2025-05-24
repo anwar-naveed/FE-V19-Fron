@@ -84,7 +84,6 @@ export class InterceptorService implements HttpInterceptor {
   
     const apiTarget = req.headers.get('x-api-target');  // Get the 'x-api-target' header
     let baseUrl = '';
-  
     // Check if 'api' flag is true and if we have the required JSON data
     if (api && this.jsonData) {
       switch (apiTarget) {

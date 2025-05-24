@@ -20,4 +20,13 @@ export class DocumentService {
   getDocument(): Document {
     return this._doc;
   }
+
+  addDocumentBodyClass(className: string) {
+    this._doc.body.classList.add(className);
+  }
+
+  updateDocumentBodyClassByRemovingAll(className: string){
+    this._doc.body.classList.value = "";
+    this.addDocumentBodyClass(className);
+  }
 }

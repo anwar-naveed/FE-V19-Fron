@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { first } from 'rxjs/operators';
-import { UserService } from 'src/app/shared/services/auth/user.service';
+// import { UserService } from 'src/app/shared/services/auth/auth.service';
 
 // import { User } from '@app/_models';
 
@@ -13,7 +13,7 @@ export class HomeComponent {
     // users?: User[];
 
     constructor(
-        private userService: UserService
+        // private userService: UserService
     ) { }
 
     ngOnInit() {

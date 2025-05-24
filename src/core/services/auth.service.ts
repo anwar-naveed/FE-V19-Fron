@@ -3,6 +3,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { BaseService } from './base.service';
 // import { Observable } from 'rxjs';
 import { SharedService } from './shared.service';
+import { HelperMethods } from "../helper/helper.methods";
 
 @Injectable({
     providedIn: 'root'
@@ -15,26 +16,42 @@ export class AuthService extends BaseService<any> {
     subscriber
     constructor(private shared: SharedService) {
         super("Tenant");
-        this.subscriber = this.shared.getApiResponse()
-        .subscribe({
-            next: (val) => {
-                if (val && val.url && val.url.includes('TestAuth')) {
-                    this.isLoading = false;
-                }
-        },
-        error: (error) => {
-            console.log(error);
-        },
-        complete: () => {
-          //console.log('Complete');
-        }});
+        // this.subscriber = this.shared.getApiResponse()
+        // .subscribe({
+        //     next: (val) => {
+        //         if (val && val.url && val.url.includes('TestAuth')) {
+        //             this.isLoading = false;
+        //         }
+        // },
+        // error: (error) => {
+        //     console.log(error);
+        // },
+        // complete: () => {
+        //   //console.log('Complete');
+        // }});
     }
 
     public isAuthenticated(): boolean {
         const token = this.localStorage.Get('token');
-        console.log('token valid:', !this.jwtHelper.isTokenExpired(token));
         //Check if token is expired.
         return !this.jwtHelper.isTokenExpired(token);
+    }
+
+    public checkRoles(allowedRoles: string[]) : boolean {
+        var roles = this.getRoles();
+        if (roles) {
+            return HelperMethods.containsAny(allowedRoles, roles);
+        }
+        else{
+            return false;
+        }
+    }
+
+    public getRoles(): string[]{
+        if (this.getDecodedToken() && this.getDecodedToken().Roles)
+            return this.getDecodedToken().Roles;
+        else
+            return null;
     }
 
     public async TestAuth() {
@@ -42,5 +59,9 @@ export class AuthService extends BaseService<any> {
         await this.Get('TestAuth');
         this.isLoading = false;
         return true;
+    }
+
+    private getDecodedToken(): any{
+        return this.jwtHelper.decodeToken(this.localStorage.Get('token'));
     }
 }
