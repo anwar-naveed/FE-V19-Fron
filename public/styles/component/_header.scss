@@ -32,12 +32,14 @@ mat-toolbar {
   *******************/
   .topbar {
     position: relative;
-    z-index: 2;
+    // z-index: 1000;
+    z-index: 2,
+    // height: 64px; // Optional: ensure consistent height
   }
   
-  .example-sidenav-container {
-    flex: 1;
-  }
+  // .example-sidenav-container {
+  //   flex: 1;
+  // }
   
   .example-sidenav-container {
     flex: 1 0 auto;

@@ -32,9 +32,13 @@ export class AuthService extends BaseService<any> {
     }
 
     public isAuthenticated(): boolean {
-        const token = this.localStorage.Get('token');
-        //Check if token is expired.
-        return !this.jwtHelper.isTokenExpired(token);
+        try {
+            const token = this.localStorage.Get('token');
+            //Check if token is expired.
+            return !this.jwtHelper.isTokenExpired(token);
+        } catch (error) {
+            return false;
+        }
     }
 
     public checkRoles(allowedRoles: string[]) : boolean {

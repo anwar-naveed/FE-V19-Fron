@@ -4,6 +4,18 @@
 Main sidebar
 ******************/
 
+// mat-sidenav-container {
+//   height: 100vh;  /* fill full viewport height */
+//   margin-top: 64px; // So sidenav doesn't go under header
+// }
+
+// mat-sidenav-content {
+//   padding-top: 64px;    /* same as toolbar height */
+//   padding-bottom: 60px; /* same as footer height */
+//   box-sizing: border-box;
+//   overflow-y: auto;
+// }
+
 mat-sidenav {
     width: 240px;
     padding-top: 0px;

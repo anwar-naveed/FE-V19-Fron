@@ -11,7 +11,7 @@ import { LoginRequest } from "src/app/shared/component-items/models/auth";
 export class AuthService extends PrismService<any> implements OnDestroy {
   loginRequest = {} as LoginRequest;
   constructor(
-  ) { super('auth'); AuthService.ClearToken(); }
+  ) { super('auth'); }
   
   ngOnDestroy(): void {
     this.loginRequest = null;

@@ -1,9 +1,10 @@
-import { Component, OnDestroy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectorRef, OnInit, Input } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MaterialModule } from "src/app/material.module";
 import { MENU_DATA, MenuItems, SideBarMenuItem } from "src/app/shared/component-items/menu-items/menu-items";
 import { PrismController } from 'src/prism_core/controller/prism.controller';
 import { NestedMenuComponent } from 'src/app/shared/components/material-components/menu/nested-menu/nested-menu.component';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,6 +16,7 @@ import { NestedMenuComponent } from 'src/app/shared/components/material-componen
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent extends PrismController<any> implements OnInit, OnDestroy {
+  @Input() drawer!: MatSidenav;
   mobileQuery: MediaQueryList;
   allMenuItems: SideBarMenuItem[] = MENU_DATA;
   filteredMenuItems: SideBarMenuItem[] = [];
@@ -39,12 +41,18 @@ export class SidebarComponent extends PrismController<any> implements OnInit, On
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
+  onMenuItemClicked() {
+    if (this.drawer) {
+      this.drawer.close();
+    }
+  }
+
   private filterMenuItemsByRoles(
     items: SideBarMenuItem[],
     allowedRoles: string[]
   ): SideBarMenuItem[] {
     // Lowercase all allowedRoles once for efficiency
-    const allowedRolesLower = allowedRoles.map((r) => r.toLowerCase());
+    const allowedRolesLower = (allowedRoles || []).map((r) => r.toLowerCase());
   
     return items
       .map((item) => {

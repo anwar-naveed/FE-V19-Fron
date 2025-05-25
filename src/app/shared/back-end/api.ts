@@ -4,6 +4,7 @@ export enum ApiActionMethodNames {
     USERDELETE = 'User-Delete',
     GETALLUSERS = 'Get-All-Users',
     GETUSER = 'Get-User',
+    ASIGNROLETOUSER = 'User-Role-Add',
     ROLECREATE = 'Role-Create',
     ROLEUPDATE = 'Role-Update',
     ROLEDELETE = 'Role-Delete',

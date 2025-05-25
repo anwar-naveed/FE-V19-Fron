@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DtoResult } from 'src/core/entities/dto-result';
 import { AsyncApiCallHelperService } from 'src/core/services/async-api-call-helper.service';
 import { PrismService } from 'src/prism_core/services/prism.service';
-import { CreateUser, UpdateUser, UserArray } from 'src/app/shared/component-items/models/user'
+import { CreateUser, UpdateUser, UserArray, UserRole } from 'src/app/shared/component-items/models/user'
 import { HelperMethods } from 'src/core/helper/helper.methods';
 import { ApiActionMethodNames } from '../../back-end/api';
 
@@ -27,6 +27,7 @@ export class UserService extends PrismService<any> {
               id: BigInt(item.id),  // convert number to bigint
               name: HelperMethods.DecodeBase64(item.name),
               username: HelperMethods.DecodeBase64(item.username),
+              roles: item.roles
             }));
           }
         }
@@ -66,10 +67,27 @@ export class UserService extends PrismService<any> {
       })
     });
   }
-  //delete function not present yet
+  
   async deleteUser(id: bigint){
     return new Promise<DtoResult<any>>((resolve) => {
       this.apiHelperService.doTask(this.del(ApiActionMethodNames.USERDELETE, null, [{name: "id", value: id.toString()}], this.headerDict))
+      .subscribe(result => {
+        if (result.IsSuccessful) {
+          if (result.Data.status){
+          }
+        }
+        resolve(result)
+      })
+    });
+  }
+
+  async assignRolesToUser(userId: bigint, roleId: bigint){
+    const userRole: UserRole = {
+      userId: userId,
+      roleId: roleId
+    }
+    return new Promise<DtoResult<any>>((resolve) => {
+      this.apiHelperService.doTask(this.post(ApiActionMethodNames.ASIGNROLETOUSER, userRole, null, this.headerDict))
       .subscribe(result => {
         if (result.IsSuccessful) {
           if (result.Data.status){
