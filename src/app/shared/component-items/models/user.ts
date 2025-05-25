@@ -1,3 +1,5 @@
+import { RoleArray } from "./role";
+
 export interface CreateUser {
   name: string,
   username: string,
@@ -17,11 +19,17 @@ export interface User {
   id: bigint,
   name: string,
   username: string,
+  roles: RoleArray
   // isActive: boolean,
   // createdOn: Date,
   // modifiedOn: Date
 }
 export type UserArray = User[];
+
+export interface UserRole {
+  userId: bigint,
+  roleId: bigint
+}
 
 
 // export interface LoginRequest {

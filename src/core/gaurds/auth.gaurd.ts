@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     ){}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        console.log("Authgaurd called at url:", state.url)
         return this.CheckToken(state);
     }
 
@@ -22,27 +23,23 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
 
     private CheckToken(route: RouterStateSnapshot) {
-        if (this.localStorage.Get('token')) {
-            if (this.authService.isAuthenticated()){
-                return true;
-            }
-            else {
-                return this.navigateToUrl(route, 'login');
-            }
-        }
-        else {
+        const token = this.localStorage.Get('token');
+        const isAuth = this.authService.isAuthenticated();
+        if (token && isAuth) {
+            return true;
+        } else {
             return this.navigateToUrl(route, 'login');
         }
     }
+    
 
     private navigateToUrl(route: RouterStateSnapshot, urlToRoute: string){
         //Router to save last url before navigating to login
         if (route) {
             this.localStorage.Set('lastUrl', route.url);
-            //console.log('ROUTE: ' + route);
         }
 
-        this.router.navigate([urlToRoute]);
+        this.router.navigate([urlToRoute], { replaceUrl: true });
         return false;
     }
 }

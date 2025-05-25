@@ -11,5 +11,5 @@
             <span fxFlex></span>
         </a>
     </mat-list-item> -->
-    <app-nested-menu [menuItems]="filteredMenuItems"></app-nested-menu>
+    <app-nested-menu [menuItems]="filteredMenuItems" (menuItemClicked)="onMenuItemClicked()"></app-nested-menu>
 </mat-nav-list>

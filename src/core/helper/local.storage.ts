@@ -14,7 +14,7 @@ export class LocalStorage {
         localStorage.setItem(key, value);
     }
 
-    Get(key: string) {
+    Get(key: string): string | null {
         return localStorage.getItem(key);
     }
 

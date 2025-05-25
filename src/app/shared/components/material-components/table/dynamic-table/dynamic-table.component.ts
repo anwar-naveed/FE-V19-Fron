@@ -6,6 +6,7 @@ import {
   ViewChild,
   AfterViewInit,
   inject,
+  AfterViewChecked,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,14 +19,16 @@ import { PrismController } from 'src/prism_core/controller/prism.controller';
 import { HelperMethods } from 'src/core/helper/helper.methods';
 import { ConfirmComponent } from '../../dialog/confirm/confirm.component';
 import { RoleService } from 'src/app/shared/services/app-services/role.service';
+import { AssignRoleDialogComponent } from '../../dialog/assign-role-dialog/assign-role-dialog.component';
+import { RoleNamesPipe } from 'src/app/shared/pipes/role-names.pipe';
 
 @Component({
   selector: 'app-dynamic-table',
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, RoleNamesPipe],
   templateUrl: './dynamic-table.component.html',
   styleUrl: './dynamic-table.component.scss',
 })
-export class DynamicTableComponent extends PrismController<any> implements OnChanges, AfterViewInit {
+export class DynamicTableComponent extends PrismController<any> implements OnChanges, AfterViewInit, AfterViewChecked {
   @Input() data: any[] = [];
 
   path = '';
@@ -33,9 +36,12 @@ export class DynamicTableComponent extends PrismController<any> implements OnCha
   dataSource = new MatTableDataSource<any>([]);
   displayedColumnsWithActions: string[] = [];
   filterValue = '';
+  private paginatorAssigned = false;
+  private sortAssigned = false;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
   private userService = inject(UserService);
   private roleService = inject(RoleService);
@@ -50,28 +56,36 @@ export class DynamicTableComponent extends PrismController<any> implements OnCha
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data'] && this.data.length > 0) {
+    if (changes['data'] && Array.isArray(this.data) && this.data.length > 0) {
       this.displayedColumns = Object.keys(this.data[0]);
       this.displayedColumns = HelperMethods.RemoveValueFromArray(this.displayedColumns, "id");
       this.displayedColumnsWithActions = [...this.displayedColumns, 'actions'];
-      this.dataSource = new MatTableDataSource(this.data);
+      this.dataSource.data = this.data;
       this.dataSource.filterPredicate = (data, filter: string) => {
         return this.displayedColumns.some((col) =>
           String(data[col]).toLowerCase().includes(filter.trim().toLowerCase())
         );
       };
-      this.attachPaginatorAndSort();
     }
   }
 
   ngAfterViewInit(): void {
-    this.attachPaginatorAndSort();
+  this.tryAttachPaginatorAndSort();
   }
 
-  private attachPaginatorAndSort() {
-    if (this.dataSource) {
+  ngAfterViewChecked() {
+    this.tryAttachPaginatorAndSort();
+  }
+
+  private tryAttachPaginatorAndSort() {
+    if (!this.paginatorAssigned && this.paginator) {
       this.dataSource.paginator = this.paginator;
+      this.paginatorAssigned = true;
+    }
+
+    if (!this.sortAssigned && this.sort) {
       this.dataSource.sort = this.sort;
+      this.sortAssigned = true;
     }
   }
 
@@ -82,13 +96,13 @@ export class DynamicTableComponent extends PrismController<any> implements OnCha
   }
 
   editRow(row: any) {
-    
-      if (this.path.includes('user')) {
-        row.password = "";
-        row.IsActive = true;
-      } else if (this.path.includes('role')) {
-        row.IsActive = true;
-      };
+
+    if (this.path.includes('user')) {
+      row.password = "";
+      row.IsActive = true;
+    } else if (this.path.includes('role')) {
+      row.IsActive = true;
+    };
 
     const dialogRef = this.dialog.open(DynamicEditDialogComponent, {
       width: '400px',
@@ -99,10 +113,12 @@ export class DynamicTableComponent extends PrismController<any> implements OnCha
       if (result) { //here check condition to use service based on input data
         if (this.path.includes('user')) {
           this.userService.updateUser(result).then(x => {
+            this.ShowInfo(x.Data.message);
             this.refreshData();
           })
-        } else if(this.path.includes('role')) {
+        } else if (this.path.includes('role')) {
           this.roleService.updateRole(result).then(x => {
+            this.ShowInfo(x.Data.message);
             this.refreshData();
           })
         }
@@ -124,14 +140,48 @@ export class DynamicTableComponent extends PrismController<any> implements OnCha
       if (res) {
         if (this.path.includes('user')) {
           this.userService.deleteUser(row.id).then(x => {
-          this.refreshData()});
-        } else if(this.path.includes('role')) {
+            this.ShowInfo(x.Data.message);
+            this.refreshData()
+          });
+        } else if (this.path.includes('role')) {
           this.roleService.deleteRole(row.id).then(x => {
-            this.refreshData()});
+            this.ShowInfo(x.Data.message);
+            this.refreshData()
+          });
         }
       }
     });
   }
+
+  assignRoleToUser(user: any) {
+    this.roleService.getAllRoles().then((rolesResponse) => {
+      const allRoles = rolesResponse.Data.payload;
+      const userRoles = user.roles || [];
+
+      const dialogRef = this.dialog.open(AssignRoleDialogComponent, {
+        width: '400px',
+        data: {
+          username: user.username || user.name || 'User',
+          allRoles,
+          userRoles
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((selectedRoles) => {
+        if (selectedRoles) {
+          const roleIds = selectedRoles.map((role: any) => role.id);
+          roleIds.forEach((roleId: bigint) => {
+            this.userService.assignRolesToUser(user.id, roleId).then((res) => {
+              this.ShowInfo(res.Data.message);
+              this.refreshData();
+            });
+          });
+        }
+      });
+    });
+  }
+
+
 
   async refreshData() {
     if (this.path.includes('user')) {

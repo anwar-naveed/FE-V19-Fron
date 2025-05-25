@@ -3,7 +3,8 @@ import {
   ChangeDetectorRef, 
   OnDestroy,
   AfterViewInit, 
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -15,6 +16,7 @@ import { FooterComponent } from "../footer/footer.component";
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { MaterialModule } from "src/app/material.module";
 import { Logo } from 'src/app/shared/component-items/models/app-model';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-mainlayout',
@@ -31,6 +33,7 @@ import { Logo } from 'src/app/shared/component-items/models/app-model';
   styleUrl: './mainlayout.component.scss'
 })
 export class MainlayoutComponent extends PrismController<any> implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('snav') snav!: MatSidenav;
   logo: Logo[] = [];
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
@@ -89,5 +92,11 @@ export class MainlayoutComponent extends PrismController<any> implements OnInit,
     this.mobileQuery.removeListener(this._mobileQueryListener);
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  toggleSidenav(event: Event) {
+    const button = event.currentTarget as HTMLElement;
+    button.blur(); // Remove focus from the button
+    this.snav.toggle();
   }
 }
