@@ -6,7 +6,7 @@ import { HttpHelper } from "../helper/http.helper";
 })
 export class ConfigService {
   private config: any;
-  constructor(private httpHelper: HttpHelper) {console.log('ConfigService created'); }
+  constructor(private httpHelper: HttpHelper) { }
 
   loadConfig(): Promise<void>{
     return this.httpHelper.Get<any>('assets/config/app-settings.json')

@@ -9,12 +9,14 @@ import { AppInjector } from "src/core/services/app.injector.service";
 import { ConfigService } from 'src/core/services/config.service';
 import { PrismController } from 'src/prism_core/controller/prism.controller';
 import { ThemeService } from './shared/services/common/theme.service';
+import { MaterialModule } from './material.module';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterModule,
     SpinnerComponent,
+    MaterialModule
   ],
   standalone: true,
   templateUrl: './app.component.html',

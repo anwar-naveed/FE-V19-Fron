@@ -10,7 +10,7 @@
     "serverPort": 4000,
     "pagettl": 2073600000,
     "maxentries": 1000000,
-    "themeColor": "light-theme1",
+    "themeColor": "dark-theme1",
     "organizationName": "Fron",
     "appId": "",
     "logId": "",

@@ -149,6 +149,7 @@ export enum MaterialIcon {
     Help = 'help',
     Logout = 'logout',
     Login = 'login',
-    Task = 'add_task'
+    Task = 'add_task',
+    Back = 'arrow_back'
     // Add more icons as needed
   }

@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     ){}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        console.log("Authgaurd called at url:", state.url)
         return this.CheckToken(state);
     }
 
