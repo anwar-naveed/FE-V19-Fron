@@ -4,7 +4,9 @@ import {
   OnDestroy,
   AfterViewInit, 
   OnInit,
-  ViewChild
+  ViewChild,
+  ElementRef, 
+  Renderer2
 } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -41,7 +43,9 @@ export class MainlayoutComponent extends PrismController<any> implements OnInit,
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher
+    media: MediaMatcher,
+    private el: ElementRef, 
+    private renderer: Renderer2
   )
   {
     super();
@@ -85,7 +89,15 @@ export class MainlayoutComponent extends PrismController<any> implements OnInit,
       });
     }
   }
-  async ngAfterViewInit() {}
+  async ngAfterViewInit() {
+    // const headerHeight = this.el.nativeElement.querySelector('mat-toolbar').offsetHeight;
+    // this.renderer.setStyle(
+    //   this.el.nativeElement.querySelector('.page-wrapper'),
+    //   'padding-top',
+    //   `${headerHeight}px`
+    // );
+
+  }
   async ngAfterViewChecked() {}
 
   ngOnDestroy(): void {

@@ -4,6 +4,7 @@ import { AuthGuard } from "src/core/gaurds/auth.gaurd";
 import { RoleGuard } from "src/core/gaurds/role.gaurd";
 import { MainlayoutComponent } from "./layouts/mainlayout/mainlayout.component";
 import { Role } from "src/core/helper/helper.methods";
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 export const ComponentsRoutes: Routes = [
   { path: 'main', 
@@ -35,8 +36,16 @@ export const ComponentsRoutes: Routes = [
     path: 'login', 
     loadComponent: () => import('./login/login.component').then(c => c.LoginComponent) 
   },
+  { 
+    path: 'unauthorized',
+    loadComponent: () => import('./unauthorized/unauthorized.component').then(c => c.UnauthorizedComponent), 
+    canActivate: [AuthGuard] 
+  },
   { path: '', redirectTo: 'main/home', pathMatch: 'full' },
   { path: 'index', redirectTo: 'main/home' },
   { path: 'index.html', redirectTo: 'main/home', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
+  { 
+    path: '**', 
+    loadComponent: () => import('./page-not-found/page-not-found.component').then(c => c.PageNotFoundComponent),  
+    canActivate: [AuthGuard] },  // Wildcard route for a 404 page
 ];

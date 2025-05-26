@@ -164,11 +164,11 @@ export const AppRouteProviders = [
   //   useFactory: appFactory,
   //   deps: [Router],
   // },
-  {
-    provide: ViewportScroller,
-    // useFactory: () => new CustomViewportScroller('content-scroller', ɵɵinject(DOCUMENT), window, ɵɵinject(ErrorHandler))
-    useFactory: () => new CustomViewportScroller('.mat-sidenav-content', ɵɵinject(DOCUMENT), window, ɵɵinject(ErrorHandler))
-  },
+  // {
+  //   provide: ViewportScroller,
+  //   // useFactory: () => new CustomViewportScroller('content-scroller', ɵɵinject(DOCUMENT), window, ɵɵinject(ErrorHandler))
+  //   useFactory: () => new CustomViewportScroller('.mat-sidenav-content', ɵɵinject(DOCUMENT), window, ɵɵinject(ErrorHandler))
+  // },
   { provide: APP_ID, useValue: '08db896c-3f9c-4f39-87ca-4148cde22d6c' },
   // { provide: APP_BASE_HREF, useValue: '/' },
   // { provide: APP_CERTIFICATE, useValue: fs.readFileSync('ssl/client.cert.crt') },

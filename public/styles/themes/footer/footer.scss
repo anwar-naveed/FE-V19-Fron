@@ -89,10 +89,11 @@
 //  }
 
  .footer-normal {
-  position: relative;
+  position: sticky;
   z-index: 1000;
   width: 100%;
   max-width: 2500px;
+  height: 64px; // Optional: ensure consistent height
   // height: auto;
   // padding: 0px 0px 0px 0px !important;
   // background: mat.get-color-from-palette($color-footer-config, 'lighter');

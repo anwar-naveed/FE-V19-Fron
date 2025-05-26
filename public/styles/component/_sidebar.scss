@@ -4,17 +4,25 @@
 Main sidebar
 ******************/
 
-// mat-sidenav-container {
-//   height: 100vh;  /* fill full viewport height */
-//   margin-top: 64px; // So sidenav doesn't go under header
-// }
+mat-sidenav-container {
+  height: calc(100vh - 64px);  /* fill full viewport height */
+  flex: 1;
+  // margin-top: 64px; // So sidenav doesn't go under header
+  // height: 100vh;  /* fill full viewport height */
+  // margin-bottom: 70px;
+}
 
-// mat-sidenav-content {
-//   padding-top: 64px;    /* same as toolbar height */
-//   padding-bottom: 60px; /* same as footer height */
-//   box-sizing: border-box;
-//   overflow-y: auto;
-// }
+mat-sidenav-content {
+  // margin-top: 64px; // So sidenav doesn't go under header
+  // padding-top: 64px;    /* same as toolbar height */
+  // padding-bottom: 70px; /* same as footer height */
+  // margin-bottom: 70px; /* same as footer height */
+  // box-sizing: border-box;
+  // overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 mat-sidenav {
     width: 240px;

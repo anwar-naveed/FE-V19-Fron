@@ -1,8 +1,11 @@
-<button
-          mat-button
-          (click)="createRole()"
-        >
-          <mat-icon>{{ maticon.Task }}</mat-icon>
-          Create Role
-        </button>
-<app-dynamic-table [data]="getAllRoles()"></app-dynamic-table>
+<div class="table-container">
+  <div class="table-header">
+    <button mat-raised-button color="primary" (click)="createRole()">
+      <mat-icon>{{ maticon.Task }}</mat-icon>
+      Create Role
+    </button>
+  </div>
+  <div class="table-body">
+    <app-dynamic-table [data]="getAllRoles()"></app-dynamic-table>
+  </div>
+</div>

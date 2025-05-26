@@ -3,12 +3,12 @@ import { MaterialIcon, MaterialModule } from 'src/app/material.module';
 import { PrismController } from 'src/prism_core/controller/prism.controller';
 
 @Component({
-  selector: 'app-page-not-found',
+  selector: 'app-unauthorized',
   imports: [MaterialModule],
-  templateUrl: './page-not-found.component.html',
-  styleUrls: ['./page-not-found.component.scss']
+  templateUrl: './unauthorized.component.html',
+  styleUrl: './unauthorized.component.scss'
 })
-export class PageNotFoundComponent extends PrismController<any> {
+export class UnauthorizedComponent extends PrismController<any> {
   protected maticon: any = MaterialIcon;
   navigateBack() {
     this.navigate('main/home');
