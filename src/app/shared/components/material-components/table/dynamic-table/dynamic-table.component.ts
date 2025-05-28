@@ -110,7 +110,7 @@ export class DynamicTableComponent extends PrismController<any> implements OnCha
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) { //here check condition to use service based on input data
+      if (result) {
         if (this.path.includes('user')) {
           this.userService.updateUser(result).then(x => {
             this.ShowInfo(x.Data.message);

@@ -1,13 +1,8 @@
-/* ---------------------------------------------
-Template Name: Material Pro Admin
-Author: Themedesigner
-Email: niravjoshi87@gmail.com
-File: scss
-/* --------------------------------------------- */
+
 @use 'variable';
-@use './themes/dark-1.scss';
-@use './themes/light-1.scss';
-@use './themes/light-2.scss';
+@use './themes/themes.scss';
+@use './themes/dialog/default-dialog.scss';
+@use './themes/card/dafault-card.scss';
 
 
 
@@ -20,7 +15,6 @@ File: scss
 
 @use 'component/global';
 @use 'component/heading';
-
 @use 'component/header';
 @use 'component/sidebar';
 @use 'component/spinner';

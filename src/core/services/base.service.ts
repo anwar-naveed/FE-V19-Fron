@@ -51,6 +51,9 @@ export abstract class BaseService<T extends any> {
             // localStorage.setItem('Authorization', '');
             localStorage.removeItem('Authorization');
             localStorage.removeItem('token');
+            localStorage.removeItem('localeSettings');
+            location.reload(); // Forces app to restart and run APP_INITIALIZER
+
         // }
     }
 

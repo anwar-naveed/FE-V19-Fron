@@ -215,10 +215,11 @@ export class HttpHelper {
             this.http.request(method, url, options)
             .subscribe({
                 next: (response) => {
+                    // console.log(response);
                     resolve(this.handleResponse(response));
             },
             error: (error) => {
-                console.log(error);
+                // console.log(error);
                 resolve(this.handleResponse(error));
             },
             complete: () => {

@@ -19,7 +19,12 @@ import {
   catchError,
   retryWhen,
   take,
-  throwError } from 'rxjs';
+  throwError, 
+  EMPTY,
+  tap,
+  from,
+  switchMap,
+  of} from 'rxjs';
 import { Router } from "@angular/router";
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { SpinnerService } from './spinner.service';
@@ -134,6 +139,24 @@ export class InterceptorService implements HttpInterceptor {
         return errors.pipe(
           delay(2000),
           take(1));
+      })
+    );
+  }
+
+  private handleBadError(request: HttpRequest<any>, next: HttpHandler) {
+    return next.handle(request).pipe(
+      retryWhen(errors => errors.pipe(
+        tap(err => {
+          console.log(`Status: ${err.status}`);
+          console.log(`URL: ${err.url}`);
+          console.log(`Message: ${err.message}`);
+        }),
+        delay(2000),
+        take(1)
+      )),
+      catchError(err => {
+        console.warn('Retry failed, redirecting or handling fallback...');
+        return EMPTY; // OR: return throwError(() => err);
       })
     );
   }
@@ -413,11 +436,18 @@ export class InterceptorService implements HttpInterceptor {
                 //   return this.handle401Error(request, next);
                 case 0:
                   return this.handleUnknownError(req, next);
+                case 404:
+                  // return this.handleBadError(req, next);
+                  console.warn('Startup API failed, using fallback...');
+                  return throwError(() => err);
                 default:
-                  return this.router.navigate(['system-error']);
+                  // Convert promise from router.navigate to observable
+                  return from(this.router.navigate(['system-error'])).pipe(
+                    switchMap(() => EMPTY)
+                  );
               }
             } else {
-              return throwError(err);
+              return throwError(() => err);
             }
           }),
           finalize(() => {

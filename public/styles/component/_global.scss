@@ -38,6 +38,40 @@
 //   flex: 1;
 // }
 
+// styles.scss or theme SCSS
+// body, .mat-typography {
+//   font-size: 12px;
+// }
+
+// .mat-form-field {
+//   font-size: 12px;
+
+//   .mat-form-field-infix {
+//     padding: 0.3em 0.5em;
+//   }
+// }
+
+// .mat-button, .mat-raised-button, .mat-icon-button {
+//   min-height: 28px;
+//   font-size: 12px;
+//   padding: 0 8px;
+// }
+
+// .mat-tab-label {
+//   font-size: 12px;
+//   padding: 0 8px;
+// }
+
+// table.mat-table {
+//   font-size: 12px;
+
+//   th, td {
+//     padding: 6px 10px;
+//   }
+// }
+
+
+
 .main-container {
   display: flex;
   flex-direction: column;
@@ -51,6 +85,12 @@
   // right: 0;
 }
 
+.sub-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 65vw;
+  max-width: 65vw;
+}
 // .mat-menu-panel {
 //   padding: 0;
 // }

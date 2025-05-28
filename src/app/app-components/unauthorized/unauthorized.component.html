@@ -1,12 +1,14 @@
 <div class="main-container">
     <mat-sidenav-container class="displaycenter">
         <mat-sidenav-content class="page-wrapper displaycenter">
-            <h2>Unauthorized</h2>
-            <p>You are not authorized. Please press below button to go back to main page.</p>
-            <button mat-raised-button color="primary" (click)="navigateBack()">
-                <mat-icon>{{ maticon.Back }}</mat-icon>
-                Back
-            </button>
+            <div class="main-container displaycenteralignwithoutwidthheight">
+                <h2>Unauthorized</h2>
+                <p>You are not authorized. Please press below button to go back to main page.</p>
+                <button mat-raised-button color="primary" (click)="navigateBack()">
+                    <mat-icon>{{ maticon.Back }}</mat-icon>
+                    Back
+                </button>
+            </div>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

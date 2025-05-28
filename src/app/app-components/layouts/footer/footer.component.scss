@@ -1,0 +1,13 @@
+:host {
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-surface);
+    // border: 1px solid var(--mat-sys-outline-variant);
+    font: var(--mat-sys-body-large);
+  }
+
+  .footer-normal {
+    position: sticky;
+    z-index: 1000;
+    width: 100%;
+    max-width: 2500px;
+  }
