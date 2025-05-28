@@ -5,7 +5,8 @@ import {
   ErrorHandler,
   importProvidersFrom, 
   ɵɵinject,
-  APP_INITIALIZER
+  APP_INITIALIZER,
+  LOCALE_ID
  } from '@angular/core';
 import { HttpClientModule,
   // HttpClient, HTTP_INTERCEPTORS
@@ -29,7 +30,7 @@ import {
   // withPreloading,
   // withHashLocation,
 } from "@angular/router";
-import { DOCUMENT, ViewportScroller } from '@angular/common';
+import { CurrencyPipe, DOCUMENT, ViewportScroller } from '@angular/common';
 import { CustomViewportScroller } from './shared/services/common/custom-viewport-scroller';
 import {
   // APP_CERTIFICATE,
@@ -47,6 +48,7 @@ import {
 } from "../core/services/app-tokens.service";
 import { ComponentsRoutes } from "../app/app-components/components.routing";
 import { ConfigService } from '../core/services/config.service';
+import { LocaleService } from 'src/core/services/locale.service';
 
 // export function initApp(configService: ConfigService) {
 //   return () => configService.loadConfig();
@@ -115,11 +117,23 @@ export const AppRouteProviders = [
     //   appId: 'myApp'
     // }),
   ),
+  CurrencyPipe,
   {
     provide: APP_INITIALIZER,
     useFactory: (appConfigService : ConfigService) =>  () => appConfigService.loadConfig(),
     deps: [ConfigService],
     multi: true
+  },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: (localeService: LocaleService) => () => localeService.init(),
+    deps: [LocaleService],
+    multi: true
+  },
+  {
+    provide: LOCALE_ID,
+    deps: [LocaleService],
+    useFactory: (localeService: LocaleService) => localeService.locale
   },
   // or using the new provideRouter
   provideRouter(

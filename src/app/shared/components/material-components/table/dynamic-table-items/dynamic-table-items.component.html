@@ -1,0 +1,63 @@
+<div style="position: relative">
+    <mat-form-field class="w-100" appearance="fill" style="position: absolute; top: 0; z-index: 10;">
+        <input type="text" placeholder="Search items" matInput [formControl]="itemControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectItem($event)">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{ option.name }} - {{ option.price | customCurrency }}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
+
+<div style="padding-top: 60px;">
+    <table mat-table [dataSource]="items" class="mat-elevation-z8 w-100">
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+            <!-- Header -->
+            <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
+
+            <!-- Row cell -->
+            <td mat-cell *matCellDef="let row">
+                <ng-container [ngSwitch]="column.type">
+                    <ng-container *ngSwitchCase="'text'">
+                        <ng-container *ngIf="column.columnDef === 'price'; else plainText">
+                            {{ +column.cell?.(row) | customCurrency }}
+                        </ng-container>
+                        <ng-template #plainText>
+                            {{ column.cell?.(row) }}
+                        </ng-template>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'input'">
+                        <input matInput type="number" [(ngModel)]="row.quantity" min="1" />
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'calculated'">
+                        {{ +column.cell?.(row) | customCurrency }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'action'">
+                        <button mat-icon-button color="warn" (click)="removeItem(items.indexOf(row))">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </ng-container>
+                </ng-container>
+            </td>
+
+            <!-- Footer cell -->
+            <td mat-footer-cell *matFooterCellDef>
+                <ng-container *ngIf="column.footer">
+                    <ng-container 
+                    *ngIf="column.columnDef === 'total' || 
+                    column.columnDef === 'discount' ||
+                    column.columnDef === 'tax'; else plainFooter">
+                        {{ getFooterValue(column) | customCurrency }}
+                    </ng-container>
+                    <ng-template #plainFooter>
+                        {{ getFooterValue(column) }}
+                    </ng-template>
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+    </table>
+</div>

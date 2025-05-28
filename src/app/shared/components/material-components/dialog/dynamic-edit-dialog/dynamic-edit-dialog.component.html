@@ -3,7 +3,12 @@
     <form [formGroup]="form">
         <ng-container *ngFor="let key of keys">
             <mat-form-field *ngIf="key !== 'id'" appearance="fill" class="full-width">
-                <mat-label>{{ key | titlecase }}</mat-label>
+                <mat-label *ngIf="key === 'roleId'; else normalkey" >
+                    {{ "Role" | titlecase }}
+                </mat-label>
+                <ng-template #normalkey>
+                    <mat-label>{{ key | titlecase }}</mat-label>
+                </ng-template>
 
                 <!-- roleId field -->
                 <mat-select *ngIf="key === 'roleId'" [formControlName]="key">
@@ -29,3 +34,5 @@
     <button mat-button (click)="onCancel()">Cancel</button>
     <button mat-button color="primary" (click)="onSave()">Save</button>
 </div>
+
+

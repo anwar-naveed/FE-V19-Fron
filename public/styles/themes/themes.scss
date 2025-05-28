@@ -1,0 +1,155 @@
+@use "@angular/material" as mat;
+
+$density: -2;
+
+//Default theme for fallback
+html {
+    color-scheme: light;
+    @include mat.theme((color: mat.$blue-palette,
+            typography: Roboto,
+            density: 0));
+}
+
+body.dark-mode-red {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$red-palette,
+            density: $density));
+}
+
+body.dark-mode-green {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$green-palette,
+            density: $density));
+}
+
+body.dark-mode-blue {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$blue-palette,
+            density: $density));
+}
+
+body.dark-mode-yellow {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$yellow-palette,
+            density: $density));
+}
+
+body.dark-mode-cyan {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$cyan-palette,
+            density: $density));
+}
+
+body.dark-mode-orange {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$orange-palette,
+            density: $density));
+}
+
+body.dark-mode-charteruse {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$chartreuse-palette,
+            density: $density));
+}
+
+body.dark-mode-magenta {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$magenta-palette,
+            density: $density));
+}
+
+body.dark-mode-spring-green {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$spring-green-palette,
+            density: $density));
+}
+
+body.dark-mode-azure {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$azure-palette,
+            density: $density));
+}
+
+body.dark-mode-violet {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$violet-palette,
+            density: $density));
+}
+
+body.dark-mode-rose {
+    color-scheme: dark;
+    @include mat.theme((color: mat.$rose-palette,
+            density: $density));
+}
+
+body.light-mode-red {
+    color-scheme: light;
+    @include mat.theme((color: mat.$red-palette,
+            density: $density));
+}
+
+body.light-mode-green {
+    color-scheme: light;
+    @include mat.theme((color: mat.$green-palette,
+            density: $density));
+}
+
+body.light-mode-blue {
+    color-scheme: light;
+    @include mat.theme((color: mat.$blue-palette,
+            density: $density));
+}
+
+body.light-mode-yellow {
+    color-scheme: light;
+    @include mat.theme((color: mat.$yellow-palette,
+            density: $density));
+}
+
+body.light-mode-cyan {
+    color-scheme: light;
+    @include mat.theme((color: mat.$cyan-palette,
+            density: $density));
+}
+
+body.light-mode-orange {
+    color-scheme: light;
+    @include mat.theme((color: mat.$orange-palette,
+            density: $density));
+}
+
+body.light-mode-charteruse {
+    color-scheme: light;
+    @include mat.theme((color: mat.$chartreuse-palette,
+            density: $density));
+}
+
+body.light-mode-magenta {
+    color-scheme: light;
+    @include mat.theme((color: mat.$magenta-palette,
+            density: $density));
+}
+
+body.light-mode-spring-green {
+    color-scheme: light;
+    @include mat.theme((color: mat.$spring-green-palette,
+            density: $density));
+}
+
+body.light-mode-azure {
+    color-scheme: light;
+    @include mat.theme((color: mat.$azure-palette,
+            density: $density));
+}
+
+body.light-mode-violet {
+    color-scheme: light;
+    @include mat.theme((color: mat.$violet-palette,
+            density: $density));
+}
+
+body.light-mode-rose {
+    color-scheme: light;
+    @include mat.theme((color: mat.$rose-palette,
+            density: $density));
+}
