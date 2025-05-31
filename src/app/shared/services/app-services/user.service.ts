@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DtoResult } from 'src/core/entities/dto-result';
 import { AsyncApiCallHelperService } from 'src/core/services/async-api-call-helper.service';
 import { PrismService } from 'src/prism_core/services/prism.service';
-import { CreateUser, UpdateUser, UserArray, UserRole } from 'src/app/shared/component-items/models/user'
+import { CreateUser, UpdateUser, UserArray, UserDeleteRoles, UserRole } from 'src/app/shared/component-items/models/user'
 import { HelperMethods } from 'src/core/helper/helper.methods';
 import { ApiActionMethodNames } from '../../back-end/api';
 
@@ -88,6 +88,19 @@ export class UserService extends PrismService<any> {
     }
     return new Promise<DtoResult<any>>((resolve) => {
       this.apiHelperService.doTask(this.post(ApiActionMethodNames.ASIGNROLETOUSER, userRole, null, this.headerDict))
+      .subscribe(result => {
+        if (result.IsSuccessful) {
+          if (result.Data.status){
+          }
+        }
+        resolve(result)
+      })
+    });
+  }
+
+  async removeRolesFromUser(payload: UserDeleteRoles){
+    return new Promise<DtoResult<any>>((resolve) => {
+      this.apiHelperService.doTask(this.del(ApiActionMethodNames.DELETEROLESTOUSER, payload, null, this.headerDict))
       .subscribe(result => {
         if (result.IsSuccessful) {
           if (result.Data.status){

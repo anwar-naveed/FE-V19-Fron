@@ -123,6 +123,34 @@ export class InterceptorService implements HttpInterceptor {
     }
   }
   
+  private handle404Error(request: HttpRequest<any>, next: HttpHandler) {
+    return next.handle(request).pipe(
+      retryWhen(errors => {
+        errors.subscribe(x => {
+          console.log(`status in response: ${x.status}`)
+          console.log(`Url of request: ${x.url}`)
+          console.log(`Message of request: ${x.error.error.message}`)
+        })
+        return throwError(() => errors);
+      })
+    );
+  }
+
+  private handle500Error(request: HttpRequest<any>, next: HttpHandler) {
+    return next.handle(request).pipe(
+      retryWhen(errors => {
+        // console.log(`request url: ${request.url}`)
+        errors.subscribe(x => {
+          //console.log(request.headers.getAll('Access-Control-Allow-Origin'))
+          //console.log(request.headers.getAll('Access-Control-Allow-Headers'))
+          console.log(`status in response: ${x.status}`)
+          console.log(`Url of request: ${x.url}`)
+          console.log(`Message of request: ${x.error.message}`)
+        })
+        return throwError(() => errors);
+      })
+    );
+  }
 
   private handleUnknownError(request: HttpRequest<any>, next: HttpHandler) {
     return next.handle(request).pipe(
@@ -424,7 +452,7 @@ export class InterceptorService implements HttpInterceptor {
       // delay(10000),
       catchError(err => {
             if (err instanceof HttpErrorResponse) {
-              console.log("Error: ",err);
+              // console.log("Error: ",err);
               // console.log("Error status: ",err.status);
               // console.log("Error status Text: ",err.statusText);
               // console.log("Error Error: ",err.error);
@@ -435,11 +463,14 @@ export class InterceptorService implements HttpInterceptor {
                 // case 401:
                 //   return this.handle401Error(request, next);
                 case 0:
-                  return this.handleUnknownError(req, next);
-                case 404:
+                  // return this.handleUnknownError(req, next);
                   // return this.handleBadError(req, next);
-                  console.warn('Startup API failed, using fallback...');
                   return throwError(() => err);
+                case 404:
+                  console.warn('Startup API failed, using fallback...');
+                  return this.handle404Error(req, next);
+                case 500:
+                  return this.handle500Error(req, next);
                 default:
                   // Convert promise from router.navigate to observable
                   return from(this.router.navigate(['system-error'])).pipe(

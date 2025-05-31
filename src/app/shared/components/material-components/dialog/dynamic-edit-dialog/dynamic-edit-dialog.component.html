@@ -1,38 +1,101 @@
-<h1 mat-dialog-title>Fill Form</h1>
+<h1 mat-dialog-title>{{ dialogTitle }}</h1>
 <div mat-dialog-content>
     <form [formGroup]="form">
         <ng-container *ngFor="let key of keys">
-            <mat-form-field *ngIf="key !== 'id'" appearance="fill" class="full-width">
-                <mat-label *ngIf="key === 'roleId'; else normalkey" >
-                    {{ "Role" | titlecase }}
-                </mat-label>
-                <ng-template #normalkey>
-                    <mat-label>{{ key | titlecase }}</mat-label>
-                </ng-template>
+            <ng-container [ngSwitch]="key">
 
-                <!-- roleId field -->
-                <mat-select *ngIf="key === 'roleId'" [formControlName]="key">
-                    <mat-option *ngFor="let role of roles" [value]="role.id">
-                        {{ role.name }}
-                    </mat-option>
-                </mat-select>
+                <!-- Id field (hidden) -->
+                <label *ngSwitchCase="'id'"></label>
 
-                <!-- Boolean type -->
-                <mat-select *ngIf="isBoolean(key)" [formControlName]="key">
-                    <mat-option [value]="true">True</mat-option>
-                    <mat-option [value]="false">False</mat-option>
-                </mat-select>
+                <!-- roleId dropdown -->
+                <mat-form-field *ngSwitchCase="'roleId'" appearance="fill" class="full-width">
+                    <ng-container>
+                        <label>Role</label>
+                        <mat-select [formControlName]="key">
+                            <mat-option *ngFor="let role of roles" [value]="role.id">
+                                {{ role.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="(form.get('roleId')?.hasError('required') || form.get(key)?.hasError('min')) && (form.get('roleId')?.touched || form.get('roleId')?.dirty)">
+                            Role selection is required
+                        </mat-error>
+                    </ng-container>
+                </mat-form-field>
 
-                <!-- Password or text input -->
-                <input *ngIf="!isBoolean(key) && key !== 'roleId'" matInput [formControlName]="key"
-                    [type]="isPasswordField(key) ? 'password' : 'text'" />
-            </mat-form-field>
+                <!-- Multi-select enum (create-role flow) -->
+                <mat-form-field *ngSwitchCase="data?.multiSelectEnum && data?.formKey" appearance="fill"
+                    class="full-width">
+                    <ng-container>
+                        <label>{{ "Role" | titlecase }}</label>
+                        <mat-select [formControlName]="key" multiple>
+                            <mat-option *ngFor="let role of roles" [value]="role">
+                                {{ toTitleCase(role) }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="form.get(key)?.hasError('required') && (form.get(key)?.touched || form.get(key)?.dirty)">
+                            Role is required
+                        </mat-error>
+                    </ng-container>
+                </mat-form-field>
+
+                <!-- Boolean dropdown -->
+                <mat-form-field *ngSwitchCase="'IsActive'" appearance="fill" class="full-width">
+                    <ng-container>
+                        <!-- <label>{{ key | titlecase }}</label> -->
+                        <label>{{ toTitleCase(key) }}</label>
+                        <mat-select [formControlName]="key">
+                            <mat-option [value]="true">True</mat-option>
+                            <mat-option [value]="false">False</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.get(key)?.hasError('required')">
+                            {{ toTitleCase(key) }} is required
+                        </mat-error>
+                    </ng-container>
+                </mat-form-field>
+
+                <!-- Password input -->
+                <mat-form-field *ngSwitchCase="'password'" appearance="fill" class="full-width">
+                    <ng-container>
+                        <label>Password</label>
+                        <input matInput [type]="hidePassword ? 'password' : 'text'" [formControlName]="key">
+                        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
+                            aria-label="Toggle password visibility">
+                            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        </button>
+                        <mat-error
+                            *ngIf="form.get(key)?.hasError('required') && (form.get(key)?.touched || form.get(key)?.dirty)">
+                            Password is required
+                        </mat-error>
+                        <mat-error
+                            *ngIf="form.get(key)?.hasError('minlength') && (form.get(key)?.touched || form.get(key)?.dirty)">
+                            Password must be at least 8 characters
+                        </mat-error>
+                        <mat-error
+                            *ngIf="form.get(key)?.hasError('pattern') && (form.get(key)?.touched || form.get(key)?.dirty)">
+                            Must include uppercase, lowercase, number, and special character
+                        </mat-error>
+                    </ng-container>
+                </mat-form-field>
+
+                <!-- Default input -->
+                <mat-form-field *ngSwitchDefault appearance="fill" class="full-width">
+                    <ng-container>
+                        <label>{{ toTitleCase(key) }}</label>
+                        <input matInput [formControlName]="key" type="text">
+                        <mat-error
+                            *ngIf="form.get(key)?.hasError('required') && (form.get(key)?.touched || form.get(key)?.dirty)">
+                            {{ toTitleCase(key) }} is required
+                        </mat-error>
+                    </ng-container>
+                </mat-form-field>
+            </ng-container>
         </ng-container>
+
     </form>
 </div>
 <div mat-dialog-actions align="end">
     <button mat-button (click)="onCancel()">Cancel</button>
     <button mat-button color="primary" (click)="onSave()">Save</button>
 </div>
-
-

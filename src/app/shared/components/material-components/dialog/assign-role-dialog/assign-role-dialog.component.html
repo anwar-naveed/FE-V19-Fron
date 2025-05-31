@@ -1,22 +1,26 @@
-<h1 mat-dialog-title>Assign Roles to {{ data.username }}</h1>
+<h2 mat-dialog-title>
+  {{ isDeleteMode ? 'Remove Roles from ' + data.username : 'Assign Roles to ' + data.username }}
+</h2>
 
-<div mat-dialog-content>
-  <ng-container *ngIf="availableRoles.length > 0; else allAssigned">
-    <mat-selection-list>
-      <mat-list-option *ngFor="let role of availableRoles"
-                       [selected]="isSelected(role)"
-                       (click)="toggleRole(role)">
+<mat-dialog-content class="mat-typography">
+  <div *ngIf="availableRoles.length > 0; else noRolesTemplate">
+    <mat-selection-list [multiple]="true">
+      <mat-list-option *ngFor="let role of availableRoles" [selected]="isSelected(role)" (click)="toggleRole(role)">
         {{ role.name }}
       </mat-list-option>
     </mat-selection-list>
-  </ng-container>
+  </div>
 
-  <ng-template #allAssigned>
-    <p>All roles are already assigned to this user.</p>
+  <ng-template #noRolesTemplate>
+    <p class="text-muted">
+      {{ isDeleteMode ? 'This user has no roles to remove.' : 'All roles are already assigned to this user.' }}
+    </p>
   </ng-template>
-</div>
+</mat-dialog-content>
 
-<div mat-dialog-actions align="end">
+<mat-dialog-actions align="end">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button color="primary" [disabled]="selectedRoles.length === 0" (click)="assign()">Assign</button>
-</div>
+  <button mat-raised-button color="primary" (click)="confirm()">
+    {{ isDeleteMode ? 'Remove Selected' : 'Assign Selected' }}
+  </button>
+</mat-dialog-actions>

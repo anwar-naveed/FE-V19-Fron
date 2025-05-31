@@ -15,6 +15,7 @@ export class AssignRoleDialogComponent {
   userRoles: any[] = [];
   availableRoles: any[] = [];
   selectedRoles: any[] = [];
+  isDeleteMode: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -22,14 +23,16 @@ export class AssignRoleDialogComponent {
   ) {
     this.allRoles = data.allRoles || [];
     this.userRoles = Array.isArray(data.userRoles) ? data.userRoles : [];
+    this.isDeleteMode = !!data.isDeleteMode;
 
-    // Convert role IDs to string for matching
-    const assignedRoleIds = new Set(this.userRoles.map(role => String(role.id)));
-
-    this.availableRoles = this.allRoles.filter(role => {
-      return !assignedRoleIds.has(String(role.id));
-    });
-
+    if (this.isDeleteMode) {
+      this.availableRoles = this.userRoles; // Show assigned roles for removal
+      this.selectedRoles = [...this.userRoles]; // Pre-select all roles
+    } else {
+      // Convert role IDs to string for matching
+      const assignedRoleIds = new Set(this.userRoles.map(role => String(role.id)));
+      this.availableRoles = this.allRoles.filter(role => !assignedRoleIds.has(String(role.id)));
+    }
   }
 
   toggleRole(role: any) {
@@ -45,7 +48,7 @@ export class AssignRoleDialogComponent {
     return this.selectedRoles.some(r => r.id === role.id);
   }
 
-  assign() {
+  confirm() {
     this.dialogRef.close(this.selectedRoles);
   }
 

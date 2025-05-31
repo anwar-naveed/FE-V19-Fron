@@ -1,7 +1,3 @@
-export interface CreateRole {
-    name: string,
-  }
-
 export interface UpdateRole {
     id: bigint,
     name: string,

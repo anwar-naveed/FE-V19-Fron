@@ -41,6 +41,11 @@ export const ComponentsRoutes: Routes = [
     loadComponent: () => import('./unauthorized/unauthorized.component').then(c => c.UnauthorizedComponent), 
     canActivate: [AuthGuard] 
   },
+  { 
+    path: 'system-error',
+    loadComponent: () => import('./system-error/system-error.component').then(c => c.SystemErrorComponent), 
+    canActivate: [AuthGuard] 
+  },
   { path: '', redirectTo: 'main/home', pathMatch: 'full' },
   { path: 'index', redirectTo: 'main/home' },
   { path: 'index.html', redirectTo: 'main/home', pathMatch: 'full' },
