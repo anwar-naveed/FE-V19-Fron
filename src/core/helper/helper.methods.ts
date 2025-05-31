@@ -20,7 +20,9 @@ export class HelperMethods {
     };
 
     static EncodeBase64(text: string) {
-        return Buffer.from(text).toString('base64');
+        if (text) {
+            return Buffer.from(text).toString('base64');
+        } else return "";
     }
 
     static DecodeBase64(encodedText: string) {
@@ -192,6 +194,10 @@ export class HelperMethods {
 
     static ToLowerFirst(str: string) {
         return str.charAt(0).toLowerCase() + str.slice(1);
+    }
+
+    static ToTitleCase(value: unknown): string {
+        return typeof value === 'string' ? this.ToUpperFirst(value) : '';
     }
 
     static GetLinkPredicate(columnName: string, searchLogic: SearchLogics, searchValue: string) {
@@ -510,6 +516,18 @@ export class HelperMethods {
     static isBoolean(key: string): boolean {
         return this.fieldTypes[this.ToCamelCaseString(key)] === 'boolean';
     }
+
+    static getEnumValues<T extends object>(enumObj: T): string[] {
+        return Object.values(enumObj) as string[];
+    }
+    
+    static getUnusedEnumValues<T extends object>(
+        enumObj: T,
+        usedValues: string[]
+    ): string[] {
+        return this.getEnumValues(enumObj).filter(val => !usedValues.includes(val));
+    }
+  
 }
 
 export enum SearchLogics {
@@ -570,5 +588,7 @@ export enum Role {
     SUPERADMIN = 'superadmin',
     ADMIN = 'admin',
     MANAGER = 'manager',
-    USER = 'user'
+    USER = 'user',
+    TEST10 = "test10",
+    TEST11 = "test11"
 }

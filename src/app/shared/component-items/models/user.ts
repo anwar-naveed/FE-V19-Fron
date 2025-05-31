@@ -31,7 +31,10 @@ export interface UserRole {
   roleId: bigint
 }
 
-
+export interface UserDeleteRoles {
+  userId: bigint,
+  roleId: bigint[]
+}
 // export interface LoginRequest {
 //   login: string;
 //   password: string;

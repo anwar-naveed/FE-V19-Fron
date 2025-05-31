@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DtoResult } from 'src/core/entities/dto-result';
 import { PrismService } from 'src/prism_core/services/prism.service';
-import { CreateRole, RoleArray, UpdateRole } from '../../component-items/models/role';
+import { RoleArray, UpdateRole } from '../../component-items/models/role';
 import { ApiActionMethodNames } from '../../back-end/api';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class RoleService extends PrismService<any> {
     });
   }
 
-  async createRole(role: CreateRole){
+  async createRole(role: any){
     return new Promise<DtoResult<any>>((resolve) => {
       this.apiHelperService.doTask(this.post(ApiActionMethodNames.ROLECREATE, role, null, this.headerDict))
       .subscribe(result => {

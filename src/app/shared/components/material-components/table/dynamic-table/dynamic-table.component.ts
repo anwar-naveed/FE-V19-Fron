@@ -21,6 +21,7 @@ import { ConfirmComponent } from '../../dialog/confirm/confirm.component';
 import { RoleService } from 'src/app/shared/services/app-services/role.service';
 import { AssignRoleDialogComponent } from '../../dialog/assign-role-dialog/assign-role-dialog.component';
 import { RoleNamesPipe } from 'src/app/shared/pipes/role-names.pipe';
+import { UserDeleteRoles } from 'src/app/shared/component-items/models/user';
 
 @Component({
   selector: 'app-dynamic-table',
@@ -96,17 +97,19 @@ export class DynamicTableComponent extends PrismController<any> implements OnCha
   }
 
   editRow(row: any) {
-
+    let formName;
     if (this.path.includes('user')) {
       row.password = "";
       row.IsActive = true;
+      formName = 'User'; // or 'Role', 'Product', etc.
     } else if (this.path.includes('role')) {
       row.IsActive = true;
+      formName = 'Role';// 'Product', etc.
     };
 
     const dialogRef = this.dialog.open(DynamicEditDialogComponent, {
       width: '400px',
-      data: { ...row }
+      data: { ...row, entityName: formName },
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -181,6 +184,39 @@ export class DynamicTableComponent extends PrismController<any> implements OnCha
     });
   }
 
+  removeRolesFromUser(user: any) {
+    const userRoles = user.roles || [];
+  
+    if (!userRoles.length) {
+      this.ShowInfo('User has no roles to remove.');
+      return;
+    }
+  
+    const dialogRef = this.dialog.open(AssignRoleDialogComponent, {
+      width: '400px',
+      data: {
+        username: user.username || user.name || 'User',
+        userRoles,
+        isDeleteMode: true
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe((selectedRoles) => {
+      if (selectedRoles) {
+        const roleIds = selectedRoles.map((role: any) => role.id);
+        const payload: UserDeleteRoles = {
+          userId: user.id,
+          roleId: roleIds
+        };
+  
+        this.userService.removeRolesFromUser(payload).then((res) => {
+          this.ShowInfo(res.Data.message);
+          this.refreshData();
+        });
+      }
+    });
+  }
+  
 
 
   async refreshData() {

@@ -162,12 +162,26 @@ export class HttpHelper {
             }
         }
 
+        private convertBigIntToString(obj: any): any {
+            if (typeof obj === "bigint") {
+              return obj.toString();
+            } else if (Array.isArray(obj)) {
+              return obj.map(this.convertBigIntToString);
+            } else if (obj !== null && typeof obj === "object") {
+              return Object.fromEntries(
+                Object.entries(obj).map(([k, v]) => [k, this.convertBigIntToString(v)])
+              );
+            }
+            return obj;
+          }
+
     private async Request(url: string, method: string, headers?: any, body?: any): Promise<any> {
         const options: any = <any>{};
         if (body) {
-            options.body = JSON.stringify(body, (key, value) =>
-                typeof value === "bigint" ? value.toString() : value,
-              );
+            // options.body = JSON.stringify(body, (key, value) =>
+            //     typeof value === "bigint" ? value.toString() : value,
+            // );
+            options.body = JSON.stringify(this.convertBigIntToString(body));
         }
 
         if (method) {
@@ -219,7 +233,7 @@ export class HttpHelper {
                     resolve(this.handleResponse(response));
             },
             error: (error) => {
-                // console.log(error);
+                // console.log("error at helper: ",error);
                 resolve(this.handleResponse(error));
             },
             complete: () => {
@@ -308,13 +322,13 @@ export class HttpHelper {
     private handleResponse(fullResponse: any): any {
         const response = fullResponse.body;
         type ResponseObject = {
-            Data: string | null,
+            Data: string | any,
             IsSuccessful: boolean,
             Errors: string | null,
             StatusCode: undefined | number,
             Headers: HttpHeaders
         }
-        // console.log(`Response Data: \n${response}\n`);
+        
         //Old way
         // const respObj = {
         //     Data: null,
@@ -346,6 +360,13 @@ export class HttpHelper {
             }
             else if (respObj.StatusCode === 504)  {
                 respObj.Errors = "Connection Error.";
+            }
+            else {
+                respObj.Errors = fullResponse.error.message;
+                respObj.StatusCode = 500;
+                fullResponse.subscribe(x => {
+                    respObj.Data = x.error;
+                })
             }
         }
         else {

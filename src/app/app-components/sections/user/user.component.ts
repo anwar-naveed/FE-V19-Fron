@@ -41,12 +41,16 @@ export class UserComponent extends PrismController<any> implements OnInit {
   createUser() {
     const dialogRef = this.dialog.open(DynamicEditDialogComponent, {
       width: '400px',
-      data: { ...this.user }
+      data: { 
+        ...this.user, 
+        entityName: 'User', // or 'Role', 'Product', etc.
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.userService.createUser(result).then(x => {
+          this.ShowInfo(x.Data.message);
           this.dynamicTable.refreshData();
         })
       }
